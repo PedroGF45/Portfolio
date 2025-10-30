@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80" viewBox="0 0 120 80">
+  <rect width="120" height="80" rx="10" fill="#071428" />
+  <g fill="#9bd1ff">
+    <circle cx="30" cy="40" r="8" />
+    <circle cx="55" cy="25" r="5" />
+    <circle cx="80" cy="50" r="6" />
+  </g>
+  <text x="12" y="72" font-family="Inter, Arial" font-size="10" fill="#cfeaff">Galactic-ML</text>
+</svg>

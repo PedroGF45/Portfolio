@@ -1,0 +1,51 @@
+# Node dependencies
+/node_modules/
+
+# Production build
+/dist/
+/build/
+/out/
+
+# Vite cache
+/.vite/
+
+# Parcel / bundler caches
+.parcel-cache/
+
+# Local env files
+.env
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+
+# Coverage and test output
+coverage/
+.nyc_output/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Misc caches
+.cache/
+
+# Debug
+local-debug.log
+
+# Optional: lockfiles (if you use a different package manager you may track one)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Windows image file cache
+Thumbs.db
