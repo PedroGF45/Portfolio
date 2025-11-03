@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion, AnimatePresence, useAnimation } from 'framer-motion'
-import { FaGithub, FaEnvelope } from 'react-icons/fa'
+import { FaGithub, FaEnvelope, FaTimes } from 'react-icons/fa'
 import { trackEvent } from '../lib/analytics'
 
 type Props = { readonly inline?: boolean; readonly direction?: 'down' | 'up'; readonly pulseKey?: number }
@@ -157,6 +157,15 @@ function HireModal({ open, closeModal, prefersReduced }: { readonly open: boolea
             <h3 id="hire-title" className="text-2xl font-bold mb-2">Let's build something together</h3>
             <p className="text-text-200 mb-4">I'm open to software engineering roles broadly, with a preference for data science and AI — reach out and let's chat.</p>
 
+            {/* X button to close */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 text-text-300 hover:text-accent-400 transition-colors focus:outline-none focus:ring-2 focus:ring-accent-400 rounded p-1"
+              aria-label="Close modal"
+            >
+              <FaTimes size={20} />
+            </button>
+
             <div className="flex items-center justify-center gap-6 text-2xl text-accent-300 mb-4">
               <a href="mailto:pedrobfh@gmail.com" onClick={() => trackEvent('hire_click_email')} aria-label="Email">
                 <FaEnvelope />
@@ -166,9 +175,8 @@ function HireModal({ open, closeModal, prefersReduced }: { readonly open: boolea
               </a>
             </div>
 
-            <div className="flex justify-center gap-3">
-              <a href="mailto:pedrobfh@gmail.com" className="px-4 py-2 bg-accent-500 text-space-950 rounded-md font-semibold" onClick={() => trackEvent('hire_send_email')}>Email me</a>
-              <button className="px-4 py-2 border border-neutral-700 rounded-md" onClick={closeModal}>Close</button>
+            <div className="flex justify-center">
+              <a href="mailto:pedrobfh@gmail.com" className="px-6 py-3 bg-accent-500 text-space-950 rounded-md font-semibold hover:bg-accent-400 transition-colors" onClick={() => trackEvent('hire_send_email')}>Email me</a>
             </div>
           </motion.dialog>
         </div>

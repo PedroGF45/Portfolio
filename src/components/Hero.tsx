@@ -1,6 +1,17 @@
 import { FaGithub, FaEnvelope } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import { trackEvent } from '../lib/analytics'
+import { useEffect, useState } from 'react'
+
+interface Particle {
+  id: number
+  left: string
+  top: string
+  animationDuration: string
+  animationDelay: string
+  drift: string
+  animationType: 'straight' | 'wave' | 'zigzag'
+}
 
 export default function Hero() {
   const prefersReduced = !!(
@@ -8,9 +19,57 @@ export default function Hero() {
     globalThis.localStorage?.getItem('animationsDisabled') === 'true'
   )
 
+  const [particles, setParticles] = useState<Particle[]>([])
+
+  useEffect(() => {
+    if (prefersReduced) return
+
+    // Generate 30 random particles with varied movement patterns
+    const animationTypes: Array<'straight' | 'wave' | 'zigzag'> = ['straight', 'wave', 'zigzag']
+    const newParticles: Particle[] = Array.from({ length: 30 }, (_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 120}%`, // Start at random vertical positions (0-120% of viewport height)
+      animationDuration: `${15 + Math.random() * 25}s`,
+      animationDelay: `${Math.random() * -40}s`, // Negative delay starts animation mid-cycle
+      drift: `${(Math.random() - 0.5) * 150}px`,
+      animationType: animationTypes[Math.floor(Math.random() * animationTypes.length)]
+    }))
+    setParticles(newParticles)
+  }, [prefersReduced])
+
   return (
-    <header className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-space-950 via-space-900 to-space-800 section-transition pb-0 px-4">
-      <div className="text-center px-4 max-w-4xl mx-auto">
+    <header className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-space-950 via-space-900 to-space-800 section-transition pb-0 px-4 overflow-hidden">
+      {/* 3D Grid Overlay */}
+      {!prefersReduced && (
+        <div className="hero-grid">
+          <div className="grid-container" />
+        </div>
+      )}
+
+      {/* Animated Particles */}
+      {!prefersReduced && (
+        <div className="hero-particles">
+          {particles.map((particle) => (
+            <div
+              key={particle.id}
+              className={`particle-star particle-${particle.animationType}`}
+              style={{
+                left: particle.left,
+                top: particle.top,
+                animationDuration: particle.animationDuration,
+                animationDelay: particle.animationDelay,
+                '--drift': particle.drift
+              } as React.CSSProperties}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Gradient Glow */}
+      {!prefersReduced && <div className="hero-glow" />}
+
+      <div className="text-center px-4 max-w-4xl mx-auto hero-content">
         <motion.h1
           className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-accent-400 mb-2 hero-title"
           initial={{ textShadow: '0px 0px 0px rgba(125,218,255,0.0)' }}
@@ -50,6 +109,41 @@ export default function Hero() {
           </a>
         </div>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-accent-300/70 cursor-pointer"
+        initial={{ opacity: 0, y: -10 }}
+        animate={prefersReduced ? { opacity: 0.7 } : {
+          opacity: [0.4, 0.8, 0.4],
+          y: [0, 8, 0]
+        }}
+        transition={prefersReduced ? { duration: 0.5, delay: 0.8 } : {
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 0.8
+        }}
+        onClick={() => {
+          window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
+          trackEvent('scroll_indicator_click')
+        }}
+        whileHover={prefersReduced ? undefined : { scale: 1.1 }}
+      >
+        <span className="text-sm font-medium">Scroll down</span>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </motion.div>
     </header>
   )
 }

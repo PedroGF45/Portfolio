@@ -3,6 +3,8 @@ import { FaGithub } from 'react-icons/fa'
 import React, { useState } from 'react'
 import ImageGallery from './ImageGallery'
 import { trackEvent } from '../lib/analytics'
+import { motion } from 'framer-motion'
+import { useInView } from 'react-intersection-observer'
 
 const fileMap: Record<string, string> = {
   python: '/logos/python.png',
@@ -61,11 +63,158 @@ const PROJECT_CAPTIONS: Record<string, string[]> = {
 const PROJECTS_WITHOUT_IMAGES = new Set(['game-analysis-app', 'signature-project', 'cotterpillar-wordpress'])
 const LARGE_LOGOS = new Set(['pytorch', 'rapids', 'react', 'nodejs', 'node', 'node.js', 'wordpress', 'php'])
 
+interface ProjectCardProps {
+  p: any
+  cardIndex: number
+  openGallery: (images: string[], idx: number, projectId?: string) => void
+  prefersReduced: boolean
+}
+
+function ProjectCard({ p, cardIndex, openGallery, prefersReduced }: ProjectCardProps) {
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
+  
+  const hasImages = p.images && p.images.length > 0
+  const showImageArea = hasImages && !PROJECTS_WITHOUT_IMAGES.has(p.id)
+  const cardHasBg = showImageArea && p.images?.[0]
+
+  const imageEl = showImageArea && !cardHasBg ? (
+    <button
+      className="w-28 h-20 bg-space-800 rounded flex items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-accent-400 group"
+      onClick={() => openGallery(p.images, 0, p.id)}
+      aria-label={`View images for ${p.title}`}
+      tabIndex={0}
+      type="button"
+    >
+      <img 
+        src={p.images[0]} 
+        alt={`${p.title} screenshot`} 
+        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200" 
+      />
+      {p.images.length > 1 && (
+        <span className="absolute bottom-1 right-2 bg-black bg-opacity-60 text-xs text-white px-2 py-0.5 rounded">
+          +{p.images.length}
+        </span>
+      )}
+    </button>
+  ) : null
+
+  const cardStyle: React.CSSProperties = cardHasBg ? { ['--card-bg-img' as any]: `url(${p.images[0]})` } : {}
+
+  return (
+    <motion.article
+      ref={ref}
+      key={p.id}
+      className={`card-bg p-5 sm:p-7 shadow-lg rounded-xl focus-within:ring-2 focus-within:ring-accent-400 project-card project-card--flex ${cardHasBg ? 'project-card--with-bg' : ''}`}
+      style={cardStyle as any}
+      initial={prefersReduced ? undefined : { opacity: 0, y: 40 }}
+      animate={prefersReduced ? undefined : (inView ? { opacity: 1, y: 0 } : {})}
+      transition={prefersReduced ? undefined : { duration: 0.6, delay: cardIndex * 0.15, ease: 'easeOut' }}
+    >
+      <div className="project-card-inner">
+        <div className={`flex flex-col h-full ${cardHasBg ? 'w-full sm:max-w-[66%]' : ''}`}>
+          <div className="flex items-start gap-3 sm:gap-5">
+            {imageEl}
+            <div className="flex-1">
+              <div className="flex items-baseline gap-3">
+                <h3 className="text-base sm:text-lg font-bold text-accent-400 mb-2">{p.title}</h3>
+              </div>
+              <p className="text-sm sm:text-base text-text-200 mb-3 sm:mb-4 line-clamp-3">{p.description}</p>
+            </div>
+          </div>
+
+          <div className="mt-auto flex items-center justify-between gap-3 sm:gap-4 flex-wrap">
+            <div className="flex gap-3 sm:gap-4 items-center flex-wrap">
+              {p.repoUrl && (
+                <a
+                  className="repo-btn"
+                  href={p.repoUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Open ${p.title} repository on GitHub`}
+                  title={`Open ${p.title} repository on GitHub`}
+                  onClick={() => trackEvent('project_repo_click', { project: p.id })}
+                >
+                  <FaGithub className="repo-icon" aria-hidden="true" />
+                  <span className="sr-only">Repo</span>
+                </a>
+              )}
+              {p.demoUrl && (
+                <a 
+                  className="text-xs sm:text-sm text-accent-400 hover:underline" 
+                  href={p.demoUrl} 
+                  target="_blank" 
+                  rel="noreferrer"
+                  onClick={() => trackEvent('project_demo_click', { project: p.id })}
+                >
+                  Demo
+                </a>
+              )}
+            </div>
+
+            <div className="flex items-center gap-2 sm:gap-3 ml-auto flex-shrink-0">
+              {Array.isArray(p.tech) && p.tech.length > 0 && (
+                <div className="flex gap-1.5 sm:gap-2 items-center" aria-hidden>
+                  {p.tech.map((tech: string) => {
+                    const slug = tech.toLowerCase()
+                    const mapped = fileMap[slug]
+                    const largeClass = LARGE_LOGOS.has(slug) ? 'project-tech-img--large' : ''
+                    
+                    if (mapped) {
+                      return (
+                        <img 
+                          key={tech} 
+                          src={mapped} 
+                          alt={tech} 
+                          title={tech} 
+                          className={`project-tech-img ${largeClass}`} 
+                        />
+                      )
+                    }
+                    return (
+                      <span 
+                        key={tech} 
+                        className={`project-tech-placeholder project-tech-img ${largeClass}`} 
+                        title={tech} 
+                        aria-hidden
+                      >
+                        {tech.slice(0, 2).toUpperCase()}
+                      </span>
+                    )
+                  })}
+                </div>
+              )}
+
+              <div className="project-date-flex text-xs sm:text-sm" aria-hidden>
+                {p.date || '—'}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {cardHasBg && (
+        <button
+          className="project-bg-btn"
+          onClick={() => openGallery(p.images, 0, p.id)}
+          aria-label={`Open images for ${p.title}`}
+        >
+          <span className="sr-only">Open gallery</span>
+        </button>
+      )}
+    </motion.article>
+  )
+}
+
 export default function SpaceGallery() {
   const [galleryOpen, setGalleryOpen] = useState(false)
   const [galleryImages, setGalleryImages] = useState<string[]>([])
   const [galleryCaptions, setGalleryCaptions] = useState<string[]>([])
   const [galleryIndex, setGalleryIndex] = useState(0)
+
+  const prefersReduced = !!(
+    (typeof globalThis.matchMedia === 'function' && globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches) ||
+    globalThis.localStorage?.getItem('animationsDisabled') === 'true'
+  )
 
   const openGallery = (images: string[], idx: number = 0, projectId?: string) => {
     setGalleryImages(images)
@@ -84,134 +233,15 @@ export default function SpaceGallery() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <h2 className="text-2xl sm:text-3xl font-semibold mb-4 space-heading">Some of my projects</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-          {projects.map((p) => {
-            const hasImages = p.images && p.images.length > 0
-            const showImageArea = hasImages && !PROJECTS_WITHOUT_IMAGES.has(p.id)
-            const cardHasBg = showImageArea && p.images?.[0]
-
-            const imageEl = showImageArea && !cardHasBg ? (
-              <button
-                className="w-28 h-20 bg-space-800 rounded flex items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-accent-400 group"
-                onClick={() => openGallery(p.images, 0, p.id)}
-                aria-label={`View images for ${p.title}`}
-                tabIndex={0}
-                type="button"
-              >
-                <img 
-                  src={p.images[0]} 
-                  alt={`${p.title} screenshot`} 
-                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200" 
-                />
-                {p.images.length > 1 && (
-                  <span className="absolute bottom-1 right-2 bg-black bg-opacity-60 text-xs text-white px-2 py-0.5 rounded">
-                    +{p.images.length}
-                  </span>
-                )}
-              </button>
-            ) : null
-
-            const cardStyle: React.CSSProperties = cardHasBg ? { ['--card-bg-img' as any]: `url(${p.images[0]})` } : {}
-
-            return (
-              <article
-                key={p.id}
-                className={`card-bg p-5 sm:p-7 shadow-lg rounded-xl focus-within:ring-2 focus-within:ring-accent-400 project-card project-card--flex ${cardHasBg ? 'project-card--with-bg' : ''}`}
-                style={cardStyle as any}
-              >
-                <div className="project-card-inner">
-                  <div className={`flex flex-col h-full ${cardHasBg ? 'w-full sm:max-w-[66%]' : ''}`}>
-                  <div className="flex items-start gap-3 sm:gap-5">
-                    {imageEl}
-                    <div className="flex-1">
-                      <div className="flex items-baseline gap-3">
-                        <h3 className="text-base sm:text-lg font-bold text-accent-400 mb-2">{p.title}</h3>
-                      </div>
-                      <p className="text-sm sm:text-base text-text-200 mb-3 sm:mb-4 line-clamp-3">{p.description}</p>
-                    </div>
-                  </div>
-
-                  <div className="mt-auto flex items-center justify-between gap-3 sm:gap-4 flex-wrap">
-                    <div className="flex gap-3 sm:gap-4 items-center flex-wrap">
-                      {p.repoUrl && (
-                        <a
-                          className="repo-btn"
-                          href={p.repoUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          aria-label={`Open ${p.title} repository on GitHub`}
-                          title={`Open ${p.title} repository on GitHub`}
-                          onClick={() => trackEvent('project_repo_click', { project: p.id })}
-                        >
-                          <FaGithub className="repo-icon" aria-hidden="true" />
-                          <span className="sr-only">Repo</span>
-                        </a>
-                      )}
-                      {p.demoUrl && (
-                        <a 
-                          className="text-xs sm:text-sm text-accent-400 hover:underline" 
-                          href={p.demoUrl} 
-                          target="_blank" 
-                          rel="noreferrer"
-                          onClick={() => trackEvent('project_demo_click', { project: p.id })}
-                        >
-                          Demo
-                        </a>
-                      )}
-                    </div>
-
-                    <div className="flex items-center gap-2 sm:gap-3 ml-auto flex-shrink-0">
-                      {Array.isArray(p.tech) && p.tech.length > 0 && (
-                        <div className="flex gap-1.5 sm:gap-2 items-center" aria-hidden>
-                          {p.tech.map((tech: string) => {
-                            const slug = tech.toLowerCase()
-                            const mapped = fileMap[slug]
-                            const largeClass = LARGE_LOGOS.has(slug) ? 'project-tech-img--large' : ''
-                            
-                            if (mapped) {
-                              return (
-                                <img 
-                                  key={tech} 
-                                  src={mapped} 
-                                  alt={tech} 
-                                  title={tech} 
-                                  className={`project-tech-img ${largeClass}`} 
-                                />
-                              )
-                            }
-                            return (
-                              <span 
-                                key={tech} 
-                                className={`project-tech-placeholder project-tech-img ${largeClass}`} 
-                                title={tech} 
-                                aria-hidden
-                              >
-                                {tech.slice(0, 2).toUpperCase()}
-                              </span>
-                            )
-                          })}
-                        </div>
-                      )}
-
-                      <div className="project-date-flex text-xs sm:text-sm" aria-hidden>
-                        {p.date || '—'}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                </div>
-
-                {cardHasBg && (
-                  <button
-                    className="project-bg-btn"
-                    onClick={() => openGallery(p.images, 0, p.id)}
-                    aria-label={`Open images for ${p.title}`}
-                  >
-                    <span className="sr-only">Open gallery</span>
-                  </button>
-                )}
-              </article>
-            )
-          })}
+          {projects.map((p, cardIndex) => (
+            <ProjectCard 
+              key={p.id}
+              p={p}
+              cardIndex={cardIndex}
+              openGallery={openGallery}
+              prefersReduced={prefersReduced}
+            />
+          ))}
         </div>
 
         <div className="mt-12 text-center text-sm text-text-300">

@@ -1,6 +1,6 @@
 # Pedro Brito — Portfolio
 
-A modern, responsive portfolio showcasing AI engineering and data science projects. Built with React, Vite, TypeScript, Tailwind CSS, and Framer Motion.
+A modern, responsive portfolio showcasing software engineering and data science projects. Built with React, Vite, TypeScript, Tailwind CSS, and Framer Motion.
 
 ## ✨ Features
 

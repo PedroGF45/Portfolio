@@ -6,7 +6,7 @@ import { trackEvent } from '../lib/analytics'
 
 const TimelineItem: React.FC<{ phase: any; i: number }> = ({ phase, i }) => {
   const isLeft = i % 2 === 0
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.15 })
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
   
   return (
     <motion.li
@@ -96,8 +96,8 @@ const fileMap: Record<string, string> = {
 }
 
 const AboutMe: React.FC = () => {
-  const [sectionRef, sectionInView] = useInView({ triggerOnce: true, threshold: 0.18 })
-  const [stackRef, stackInView] = useInView({ triggerOnce: true, threshold: 0.18 })
+  const [sectionRef, sectionInView] = useInView({ triggerOnce: true, threshold: 0.05 })
+  const [stackRef, stackInView] = useInView({ triggerOnce: true, threshold: 0.05 })
   const stackContainerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -154,7 +154,7 @@ const AboutMe: React.FC = () => {
           <div className="md:flex-1">
             <div className="block sm:hidden">
               <p className="text-sm mb-2">
-                Hi — I'm Pedro, an AI engineer and data scientist. I build ML pipelines, data-driven tools, and space-themed projects.
+                Hi — I'm Pedro, a software engineer and data scientist. I build ML pipelines, data-driven tools, and space-themed projects.
               </p>
               <p className="text-xs text-text-300">Python • Machine Learning • Data Engineering</p>
             </div>
