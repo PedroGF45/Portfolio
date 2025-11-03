@@ -23,10 +23,12 @@ export default function Hero() {
           }}
           transition={prefersReduced ? undefined : { duration: 4.6, repeat: Infinity, ease: 'easeInOut' }}
           onMouseEnter={() => trackEvent('hero_title_hover')}
-        >Pedro Brito</motion.h1>
-  <p className="mt-4 text-lg sm:text-xl lg:text-2xl text-accent-200 font-medium opacity-95 px-4">AI engineer & data scientist — I turn data into impact.</p>
-
-  {/* social icons remain; primary CTAs moved to an animated scroll cue below */}
+        >
+          Pedro Brito
+        </motion.h1>
+        <p className="mt-4 text-lg sm:text-xl lg:text-2xl text-accent-200 font-medium opacity-95 px-4">
+          Aspiring software engineer & data scientist — I turn data into impact.
+        </p>
         <div className="mt-8 flex gap-4 justify-center items-center">
           <a
             className="ml-3 text-2xl text-accent-300 hover:text-accent-400 transition-colors focus:underline"
@@ -45,7 +47,6 @@ export default function Hero() {
             <FaEnvelope />
           </a>
         </div>
-
       </div>
     </header>
   )

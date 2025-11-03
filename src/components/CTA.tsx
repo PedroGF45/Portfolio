@@ -50,12 +50,6 @@ export default function CTA({ inline, direction, pulseKey }: Props) {
 
   return (
     <>
-      {/** Debugging logs for CTA props — remove when fixed. */}
-      {globalThis.window !== undefined && (
-        // eslint-disable-next-line no-console
-        (console.debug as any)(`[CTA DEBUG] inline=${inline} direction=${direction} pulseKey=${pulseKey} animationsDisabled=${globalThis.localStorage?.getItem('animationsDisabled')}`)
-      )}
-
       <AnimatePresence>
         <div className="relative inline-block">
           {/* pulse ring when CTA lands inline. Use pulseKey as key so the entry
@@ -154,7 +148,6 @@ function HireModal({ open, closeModal, prefersReduced }: { readonly open: boolea
             data-hire-modal
             open
             aria-labelledby="hire-title"
-            layoutId="hire-cta"
             className="relative bg-space-900 rounded-2xl p-8 shadow-2xl w-full max-w-md mx-4 text-center"
             initial={prefersReduced ? undefined : { opacity: 0, scale: 0.98 }}
             animate={prefersReduced ? undefined : { opacity: 1, scale: 1 }}

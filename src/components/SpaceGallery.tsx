@@ -3,7 +3,6 @@ import { FaGithub } from 'react-icons/fa'
 import React, { useState } from 'react'
 import ImageGallery from './ImageGallery'
 
-// Map tech names to logo paths (copied from AboutMe)
 const fileMap: Record<string, string> = {
   python: '/logos/python.png',
   pytorch: '/logos/pytorch.svg',
@@ -27,7 +26,39 @@ const fileMap: Record<string, string> = {
   typescript: '/logos/typescript.svg',
   php: '/logos/php.webp',
   'c++': '/logos/c++.png',
-};
+}
+
+const PROJECT_CAPTIONS: Record<string, string[]> = {
+  'space-simulator': ['Simulation Output: Celestial objects in motion'],
+  'maze-rl': [
+    'Training Progress: Score and Mean Score',
+    'Win/Loss/Tie Bar Plot',
+    'Maze Game Example (Pygame)',
+    'Console Output Example'
+  ],
+  'rpe-tracker': ['Login Page', 'Home Dashboard'],
+  'cd-project': [
+    'Pairplot',
+    'Boxplot',
+    'All Violin Plots',
+    'UMAP Components',
+    'Train Dendrogram',
+    'PCA to 2D Color Cluster Labels',
+    'Training Time Comparison',
+    'Test RMSE',
+    'Test Accuracy',
+    'PCA Component Importance',
+    'Mean CV Training Time',
+    'Mean CV Sensitivity',
+    'Mean CV RMSE',
+    'Mean CV Accuracy',
+    'Feature Importance',
+    'Correlation Matrix'
+  ]
+}
+
+const PROJECTS_WITHOUT_IMAGES = new Set(['game-analysis-app', 'signature-project', 'cotterpillar-wordpress'])
+const LARGE_LOGOS = new Set(['pytorch', 'rapids', 'react', 'nodejs', 'node', 'node.js', 'wordpress', 'php'])
 
 export default function SpaceGallery() {
   const [galleryOpen, setGalleryOpen] = useState(false)
@@ -38,86 +69,44 @@ export default function SpaceGallery() {
   const openGallery = (images: string[], idx: number = 0, projectId?: string) => {
     setGalleryImages(images)
     setGalleryIndex(idx)
-    // Generate captions based on project and image filename
-    let captions: string[] = []
-    if (projectId === 'space-simulator') {
-      captions = ['Simulation Output: Celestial objects in motion']
-    } else if (projectId === 'maze-rl') {
-      captions = [
-        'Training Progress: Score and Mean Score',
-        'Win/Loss/Tie Bar Plot',
-        'Maze Game Example (Pygame)',
-        'Console Output Example'
-      ]
-    } else if (projectId === 'rpe-tracker') {
-      captions = [
-        'Login Page',
-        'Home Dashboard'
-      ]
-    } else if (projectId === 'cd-project') {
-      captions = [
-        'Pairplot',
-        'Boxplot',
-        'All Violin Plots',
-        'UMAP Components',
-        'Train Dendrogram',
-        'PCA to 2D Color Cluster Labels',
-        'Training Time Comparison',
-        'Test RMSE',
-        'Test Accuracy',
-        'PCA Component Importance',
-        'Mean CV Training Time',
-        'Mean CV Sensitivity',
-        'Mean CV RMSE',
-        'Mean CV Accuracy',
-        'Feature Importance',
-        'Correlation Matrix'
-      ]
-    } else {
-      captions = images.map(() => '')
-    }
-    setGalleryCaptions(captions)
+    setGalleryCaptions(projectId && PROJECT_CAPTIONS[projectId] || images.map(() => ''))
     setGalleryOpen(true)
   }
+
   const closeGallery = () => setGalleryOpen(false)
 
   return (
     <section className="relative">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <h2 className="text-2xl sm:text-3xl font-semibold mb-4 space-heading">Some of my projects</h2>
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {projects.map((p) => {
             const hasImages = p.images && p.images.length > 0
-            // Only render image area if images exist
-            let showImageArea = hasImages
-            // Remove image canvas for these projects
-            if (["game-analysis-app", "signature-project", "cotterpillar-wordpress"].includes(p.id)) {
-              showImageArea = false
-            }
-              // If the card will use the right-side background image, we hide the
-              // left thumbnail to avoid duplicate imagery. Otherwise render a
-              // small thumbnail button on the left.
-              const cardHasBg = showImageArea && hasImages && p.images?.[0]
-              let imageEl = null
-              if (showImageArea && !cardHasBg) {
-                imageEl = (
-                  <button
-                    className="w-28 h-20 bg-space-800 rounded flex items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-accent-400 group"
-                    onClick={() => openGallery(p.images, 0, p.id)}
-                    aria-label={`View images for ${p.title}`}
-                    tabIndex={0}
-                    type="button"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={p.images[0]} alt={`${p.title} screenshot`} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200" />
-                    {p.images.length > 1 && (
-                      <span className="absolute bottom-1 right-2 bg-black bg-opacity-60 text-xs text-white px-2 py-0.5 rounded">+{p.images.length}</span>
-                    )}
-                  </button>
-                )
-              }
+            const showImageArea = hasImages && !PROJECTS_WITHOUT_IMAGES.has(p.id)
+            const cardHasBg = showImageArea && p.images?.[0]
 
-            const cardStyle: React.CSSProperties = cardHasBg ? ({ ['--card-bg-img' as any]: `url(${p.images[0]})` }) : {}
+            const imageEl = showImageArea && !cardHasBg ? (
+              <button
+                className="w-28 h-20 bg-space-800 rounded flex items-center justify-center overflow-hidden focus:outline-none focus:ring-2 focus:ring-accent-400 group"
+                onClick={() => openGallery(p.images, 0, p.id)}
+                aria-label={`View images for ${p.title}`}
+                tabIndex={0}
+                type="button"
+              >
+                <img 
+                  src={p.images[0]} 
+                  alt={`${p.title} screenshot`} 
+                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200" 
+                />
+                {p.images.length > 1 && (
+                  <span className="absolute bottom-1 right-2 bg-black bg-opacity-60 text-xs text-white px-2 py-0.5 rounded">
+                    +{p.images.length}
+                  </span>
+                )}
+              </button>
+            ) : null
+
+            const cardStyle: React.CSSProperties = cardHasBg ? { ['--card-bg-img' as any]: `url(${p.images[0]})` } : {}
 
             return (
               <article
@@ -135,8 +124,7 @@ export default function SpaceGallery() {
                       <p className="text-sm sm:text-base text-text-200 mb-3 sm:mb-4 line-clamp-3">{p.description}</p>
                     </div>
                   </div>
-                  
-                  {/* Bottom section with actions, tech stack, and date - using flex for alignment */}
+
                   <div className="mt-auto flex items-center justify-between gap-3 sm:gap-4 flex-wrap">
                     <div className="flex gap-3 sm:gap-4 items-center flex-wrap">
                       {p.repoUrl && (
@@ -153,36 +141,52 @@ export default function SpaceGallery() {
                         </a>
                       )}
                       {p.demoUrl && (
-                        <a className="text-xs sm:text-sm text-accent-400 hover:underline" href={p.demoUrl} target="_blank" rel="noreferrer">Demo</a>
+                        <a 
+                          className="text-xs sm:text-sm text-accent-400 hover:underline" 
+                          href={p.demoUrl} 
+                          target="_blank" 
+                          rel="noreferrer"
+                        >
+                          Demo
+                        </a>
                       )}
                     </div>
-                    
-                    {/* Tech icons and date in a flex container */}
+
                     <div className="flex items-center gap-2 sm:gap-3 ml-auto flex-shrink-0">
                       {Array.isArray(p.tech) && p.tech.length > 0 && (
                         <div className="flex gap-1.5 sm:gap-2 items-center" aria-hidden>
                           {p.tech.map((tech: string) => {
                             const slug = tech.toLowerCase()
-                            const mapped = (fileMap as any)[slug]
-                            const largeSet = new Set(['pytorch','rapids','react','nodejs','node','node.js','wordpress','php'])
-                            const largeClass = largeSet.has(slug) ? 'project-tech-img--large' : ''
+                            const mapped = fileMap[slug]
+                            const largeClass = LARGE_LOGOS.has(slug) ? 'project-tech-img--large' : ''
+                            
                             if (mapped) {
                               return (
-                                <img key={tech} src={mapped} alt={tech} title={tech} className={`project-tech-img ${largeClass}`} />
+                                <img 
+                                  key={tech} 
+                                  src={mapped} 
+                                  alt={tech} 
+                                  title={tech} 
+                                  className={`project-tech-img ${largeClass}`} 
+                                />
                               )
                             }
                             return (
-                              <span key={tech} className={`project-tech-placeholder project-tech-img ${largeClass}`} title={tech} aria-hidden>
-                                {tech.slice(0,2).toUpperCase()}
+                              <span 
+                                key={tech} 
+                                className={`project-tech-placeholder project-tech-img ${largeClass}`} 
+                                title={tech} 
+                                aria-hidden
+                              >
+                                {tech.slice(0, 2).toUpperCase()}
                               </span>
                             )
                           })}
                         </div>
                       )}
-                      
-                      {/* Date aligned with tech icons */}
+
                       <div className="project-date-flex text-xs sm:text-sm" aria-hidden>
-                        {p.date ? p.date : '—'}
+                        {p.date || '—'}
                       </div>
                     </div>
                   </div>
@@ -190,7 +194,7 @@ export default function SpaceGallery() {
 
                 {cardHasBg && (
                   <button
-                    className="project-bg-btn" 
+                    className="project-bg-btn"
                     onClick={() => openGallery(p.images, 0, p.id)}
                     aria-label={`Open images for ${p.title}`}
                   >
@@ -202,9 +206,17 @@ export default function SpaceGallery() {
           })}
         </div>
 
-        <div className="mt-12 text-center text-sm text-text-300">Want to connect objects to full case studies or interactive demos? I can wire that up.</div>
+        <div className="mt-12 text-center text-sm text-text-300">
+          Want to connect objects to full case studies or interactive demos? I can wire that up.
+        </div>
       </div>
-  <ImageGallery images={galleryImages} open={galleryOpen} onClose={closeGallery} initialIndex={galleryIndex} captions={galleryCaptions} />
+      <ImageGallery
+        images={galleryImages}
+        open={galleryOpen}
+        onClose={closeGallery}
+        initialIndex={galleryIndex}
+        captions={galleryCaptions}
+      />
     </section>
   )
 }

@@ -561,6 +561,12 @@ html[data-animations="disabled"] .comet, html[data-animations="disabled"] .comet
   z-index: 1;
 }
 .project-card--with-bg:hover::after { opacity: 0.56; }
+
+/* Ensure content is above the background but below the clickable button */
+.project-card--with-bg > div:first-child {
+  position: relative;
+  z-index: 2;
+}
 /* Numeric debug labels (small) */
 .project-debug-value {
   position: absolute;

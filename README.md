@@ -4,34 +4,32 @@ A modern, responsive portfolio showcasing AI engineering and data science projec
 
 ## ✨ Features
 
-- 🎨 Beautiful space-themed design with animated backgrounds
-- 📱 Fully responsive (mobile, tablet, desktop)
-- ⚡ Fast performance with Vite
-- 🎯 Interactive project cards with image galleries
-- 🌟 Smooth animations with Framer Motion
-- 🔍 SEO-friendly structure
-- ♿ Accessible components
+- 🎨 **Space-themed Design** — Beautiful animated backgrounds with cosmic aesthetics
+- 📱 **Fully Responsive** — Optimized layouts for mobile, tablet, and desktop
+- ⚡ **Fast Performance** — Powered by Vite for lightning-fast development and builds
+- 🖼️ **Image Gallery** — Interactive project showcases with keyboard navigation
+- � **Smooth Animations** — Framer Motion for fluid transitions and micro-interactions
+- � **Timeline Visualization** — Interactive journey through career milestones
+- 💼 **Smart CTA** — Floating hire button that intelligently transitions to inline
+- 🎯 **Flexbox Layouts** — Precise alignment and responsive behavior
+- ♿ **Accessible** — Semantic HTML, ARIA labels, and keyboard support
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Installation
 
-1. Clone the repository
 ```bash
 git clone https://github.com/PedroGF45/Portfolio.git
 cd Portfolio
-```
-
-2. Install dependencies
-```bash
 npm install
 ```
 
-3. Run development server
+### Development
+
 ```bash
 npm run dev
 ```
@@ -42,13 +40,6 @@ Visit `http://localhost:5173`
 
 ```bash
 npm run build
-```
-
-Output will be in the `dist/` folder.
-
-### Preview Production Build
-
-```bash
 npm run preview
 ```
 
@@ -57,36 +48,34 @@ npm run preview
 ```
 Portfolio/
 ├── src/
-│   ├── components/       # React components
-│   │   ├── Hero.tsx
-│   │   ├── AboutMe.tsx
-│   │   ├── SpaceGallery.tsx
-│   │   ├── ContactForm.tsx
-│   │   └── ...
-│   ├── data/            # Project data
-│   │   ├── projects.ts
-│   │   └── journeyTimeline.ts
-│   ├── styles/          # Global styles
-│   │   └── index.css
-│   ├── lib/             # Utilities
-│   └── App.tsx          # Main app component
-├── public/              # Static assets
-│   ├── images/          # Project screenshots
-│   └── logos/           # Technology logos
-├── DEPLOYMENT.md        # Deployment guide
-├── CHANGELOG.md         # Change history
-└── README.md           # This file
+│   ├── components/          # React components
+│   │   ├── Hero.tsx         # Landing hero section
+│   │   ├── AboutMe.tsx      # About + timeline
+│   │   ├── SpaceGallery.tsx # Project showcase
+│   │   ├── ImageGallery.tsx # Image lightbox
+│   │   ├── ContactForm.tsx  # Contact form
+│   │   └── CTA.tsx          # Floating hire button
+│   ├── data/                # Static data
+│   │   ├── projects.ts      # Project information
+│   │   └── journeyTimeline.ts # Career timeline
+│   ├── styles/              # Global styles
+│   │   └── index.css        # Tailwind + custom CSS
+│   └── App.tsx              # Main app component
+├── public/                  # Static assets
+│   ├── images/              # Project screenshots
+│   └── logos/               # Technology logos
+└── README.md                # This file
 ```
 
 ## 🎨 Customization
 
 ### Update Projects
-Edit `src/data/projects.ts` to add/modify projects:
+Edit `src/data/projects.ts`:
 ```typescript
 {
   id: 'my-project',
   title: 'My Project',
-  description: 'Description here',
+  description: 'Brief description',
   repoUrl: 'https://github.com/...',
   date: '2025',
   tech: ['React', 'TypeScript'],
@@ -94,91 +83,58 @@ Edit `src/data/projects.ts` to add/modify projects:
 }
 ```
 
-### Change Colors
+### Modify Timeline
+Edit `src/data/journeyTimeline.ts` to update career milestones.
+
+### Change Theme Colors
 Edit `src/styles/index.css`:
 ```css
 .bg-space-900 { background-color: #181c2e; }
 .text-accent-400 { color: #98a8ee; }
 ```
 
-### Update Personal Info
-- Hero: `src/components/Hero.tsx`
-- About: `src/components/AboutMe.tsx`
-- Contact: `src/App.tsx` (contact section)
+## �️ Technologies
 
-## 🚀 Deployment
+- **React 18** — Modern UI framework
+- **Vite 5** — Fast build tooling
+- **TypeScript** — Type safety
+- **Tailwind CSS** — Utility-first styling
+- **Framer Motion** — Smooth animations
+- **React Icons** — Icon library
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
+## 📱 Responsive Design
 
-### Quick Deploy Options
-
-**Vercel (Recommended)**
-```bash
-npm i -g vercel
-vercel
-```
-
-**Netlify**
-```bash
-npm i -g netlify-cli
-netlify deploy --prod
-```
-
-**GitHub Pages**
-```bash
-npm install --save-dev gh-pages
-npm run deploy
-```
-
-## 🛠️ Technologies Used
-
-- **Framework**: React 18
-- **Build Tool**: Vite 5
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Animations**: Framer Motion
-- **Icons**: React Icons
-- **3D Graphics**: Three.js, React Three Fiber
-
-## 📱 Responsive Breakpoints
-
-- Mobile: < 640px
-- Tablet: 640px - 768px
-- Desktop: 768px+
-- Large Desktop: 1024px+
+- **Mobile**: < 640px — Optimized touch interactions, simplified layouts
+- **Tablet**: 640px - 1024px — Balanced content density
+- **Desktop**: 1024px+ — Full feature set with spacious layouts
 
 ## 🧪 Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-- `npm run typecheck` - Run TypeScript compiler check
-- `npm run images:optimize` - Optimize images
-- `npm run logos:normalize` - Normalize logo files
+- `npm run dev` — Start development server
+- `npm run build` — Build for production
+- `npm run preview` — Preview production build
+- `npm run lint` — Run ESLint
+- `npm run typecheck` — Type check with TypeScript
 
-## 📝 Recent Updates
+## � Deployment
 
-See [CHANGELOG.md](./CHANGELOG.md) for detailed changes.
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed instructions.
 
-### Latest (November 2025)
-- ✅ Made fully responsive for all devices
-- ✅ Fixed date alignment on project cards
-- ✅ Updated project titles and descriptions
-- ✅ Improved contact section layout
-- ✅ Added flexbox layouts throughout
-- ✅ Created deployment documentation
+**Quick Deploy:**
+```bash
+# Vercel
+vercel
 
-## 🤝 Contributing
+# Netlify
+netlify deploy --prod
 
-This is a personal portfolio, but feel free to:
-- Report bugs
-- Suggest improvements
-- Fork for your own portfolio
+# GitHub Pages
+npm run deploy
+```
 
 ## 📄 License
 
-MIT License - feel free to use this as inspiration for your own portfolio!
+MIT License — feel free to use as inspiration for your own portfolio!
 
 ## 📧 Contact
 
@@ -188,4 +144,4 @@ MIT License - feel free to use this as inspiration for your own portfolio!
 
 ---
 
-**Built with ❤️ by Pedro Brito** | Last Updated: November 2025
+**Built with ❤️ by Pedro Brito**
