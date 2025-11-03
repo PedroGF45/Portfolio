@@ -162,7 +162,7 @@ function HireModal({ open, closeModal, prefersReduced }: { readonly open: boolea
             transition={{ duration: prefersReduced ? 0 : 0.34, ease: 'easeInOut' }}
           >
             <h3 id="hire-title" className="text-2xl font-bold mb-2">Let's build something together</h3>
-            <p className="text-text-200 mb-4">I'm open to AI engineering & data science roles — reach out and let's chat.</p>
+            <p className="text-text-200 mb-4">I'm open to software engineering roles broadly, with a preference for data science and AI — reach out and let's chat.</p>
 
             <div className="flex items-center justify-center gap-6 text-2xl text-accent-300 mb-4">
               <a href="mailto:pedrobfh@gmail.com" onClick={() => trackEvent('hire_click_email')} aria-label="Email">

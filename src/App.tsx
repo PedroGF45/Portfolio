@@ -77,7 +77,7 @@ export default function App() {
       {/* Contact section - improved visuals and justified text */}
       <motion.section
         id="contact"
-        className="max-w-4xl mx-auto px-4 py-12 section-transition rounded-3xl shadow-xl mb-12 contact-card"
+        className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 section-transition rounded-3xl shadow-xl mb-12 contact-card"
         initial={{ opacity: 0, y: 18 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
@@ -87,31 +87,32 @@ export default function App() {
           {/* decorative satellite */}
           <div aria-hidden className="contact-satellite" />
 
-          <div className="pr-28">
-            <h3 className="text-lg font-semibold mb-1 text-accent-400">Interested in working together?</h3>
-            <p className="mb-4 text-base text-text-200">Tell me about the problem — or click Hire me to start a conversation.</p>
-          </div>
-
-          {/* social icons cluster in the top-right of the card */}
-          <div className="contact-top-right">
-            <a aria-label="Email Pedro" title="Email" className="social-btn" href="mailto:pedrobfh@gmail.com?subject=Hello%20Pedro">
-              <FaEnvelope />
-              <span className="social-tooltip">Email</span>
-            </a>
-            <a aria-label="Pedro on GitHub" title="GitHub" className="social-btn" href="https://github.com/PedroGF45" target="_blank" rel="noreferrer">
-              <FaGithub />
-              <span className="social-tooltip">GitHub</span>
-            </a>
-            <a aria-label="Pedro on LinkedIn" title="LinkedIn" className="social-btn" href="https://www.linkedin.com/in/pedro-brito-272b2a192" target="_blank" rel="noreferrer">
-              <FaLinkedin />
-              <span className="social-tooltip">LinkedIn</span>
-            </a>
+          <div className="pr-4 sm:pr-28">
+            <h3 className="text-lg sm:text-xl font-semibold mb-1 text-accent-400">Interested in working together?</h3>
+            <p className="mb-4 text-sm sm:text-base text-text-200">Tell me about the problem — or click Hire me to start a conversation.</p>
           </div>
         </div>
-  {/* Inline CTA slot: render CTA inside the contact section when it's visible */}
+        
+        {/* CTA and social icons on the same line */}
         {inlineCTA && (
-          <div className="mt-6 flex justify-center md:justify-start">
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
             <HireCTA inline direction={scrollDir} pulseKey={inlinePulseKey} />
+            
+            {/* social icons inline with CTA */}
+            <div className="flex gap-3 items-center">
+              <a aria-label="Email Pedro" title="Email" className="social-btn" href="mailto:pedrobfh@gmail.com?subject=Hello%20Pedro">
+                <FaEnvelope />
+                <span className="social-tooltip">Email</span>
+              </a>
+              <a aria-label="Pedro on GitHub" title="GitHub" className="social-btn" href="https://github.com/PedroGF45" target="_blank" rel="noreferrer">
+                <FaGithub />
+                <span className="social-tooltip">GitHub</span>
+              </a>
+              <a aria-label="Pedro on LinkedIn" title="LinkedIn" className="social-btn" href="https://www.linkedin.com/in/pedro-brito-272b2a192" target="_blank" rel="noreferrer">
+                <FaLinkedin />
+                <span className="social-tooltip">LinkedIn</span>
+              </a>
+            </div>
           </div>
         )}
   </motion.section>

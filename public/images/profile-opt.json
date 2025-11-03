@@ -1,0 +1,18 @@
+{
+  "src": "/images/profile-512.webp",
+  "srcset": [
+    {
+      "src": "/images/profile-128.webp",
+      "width": 128
+    },
+    {
+      "src": "/images/profile-256.webp",
+      "width": 256
+    },
+    {
+      "src": "/images/profile-512.webp",
+      "width": 512
+    }
+  ],
+  "placeholder": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAACwAQCdASoKAAoAAoBCJZwAAluaJgDAAP7XXdBpkflnY4Url0hDrX6H5GK59bDvKK6gvir/p/2pP7IBE9NgAAAA"
+}

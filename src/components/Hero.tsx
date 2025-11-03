@@ -9,10 +9,10 @@ export default function Hero() {
   )
 
   return (
-    <header className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-space-950 via-space-900 to-space-800 section-transition pb-0">
-      <div className="text-center px-6">
+    <header className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-space-950 via-space-900 to-space-800 section-transition pb-0 px-4">
+      <div className="text-center px-4 max-w-4xl mx-auto">
         <motion.h1
-          className="text-5xl font-extrabold tracking-tight text-accent-400 mb-2 hero-title"
+          className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-accent-400 mb-2 hero-title"
           initial={{ textShadow: '0px 0px 0px rgba(125,218,255,0.0)' }}
           animate={prefersReduced ? undefined : {
             textShadow: [
@@ -24,7 +24,7 @@ export default function Hero() {
           transition={prefersReduced ? undefined : { duration: 4.6, repeat: Infinity, ease: 'easeInOut' }}
           onMouseEnter={() => trackEvent('hero_title_hover')}
         >Pedro Brito</motion.h1>
-        <p className="mt-4 text-2xl text-accent-200 font-medium opacity-95">Aspiring AI Engineer & Data Scientist — exploring the universe of data</p>
+  <p className="mt-4 text-lg sm:text-xl lg:text-2xl text-accent-200 font-medium opacity-95 px-4">AI engineer & data scientist — I turn data into impact.</p>
 
   {/* social icons remain; primary CTAs moved to an animated scroll cue below */}
         <div className="mt-8 flex gap-4 justify-center items-center">

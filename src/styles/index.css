@@ -42,11 +42,18 @@ body {
 }
 
 /* Headings and text improvements */
-h1, h2, h3, h4, h5, h6 {
-  color: #f8fafc;
+h1, h2, h3 {
+  color: #7ddaff; /* unified header color */
   font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
   font-weight: 700;
   letter-spacing: 0.01em;
+  font-size: 1.5rem; /* unify header sizes for clarity */
+}
+
+/* keep smaller headers consistent but slightly less prominent */
+h4, h5, h6 {
+  color: #7ddaff;
+  font-weight: 700;
 }
 
 p, li, span, div {
@@ -57,9 +64,19 @@ p, li, span, div {
 
 /* Card and section backgrounds */
 .card-bg {
-  background: linear-gradient(135deg, #23294a 60%, #2e365c 100%);
+  /* Brighter card: make the card background close to white while keeping translucency */
+  background: linear-gradient(180deg, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0.808) 100%);
   border-radius: 1.25rem;
-  box-shadow: 0 4px 32px 0 rgba(10,12,27,0.12);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 8px 28px rgba(2,6,23,0.12);
+  backdrop-filter: blur(6px);
+  /* Make text inside cards dark for readability on light card */
+  color: #0b1220;
+}
+
+/* Ensure common text elements inside cards use dark color so they remain readable */
+.card-bg h3, .card-bg p, .card-bg a, .card-bg .repo-btn, .card-bg .text-base, .card-bg .text-sm {
+  color: #0b1220 !important;
 }
 
 /* Section padding helpers */
@@ -165,8 +182,21 @@ html[data-animations="disabled"] .comet, html[data-animations="disabled"] .comet
   .space-tooltip { max-width: 220px; font-size: 13px; }
 }
 
-/* tech logo images in About */
-.tech-logo { width: 44px; height: 44px; border-radius: 8px; background: rgba(255,255,255,0.02); padding: 6px; }
+/* tech logo images in About — use a light card so transparent logos read on the dark page */
+.tech-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  /* warm off-white so pure white icons still read well */
+  background: rgba(255,255,255,0.96);
+  padding: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(2,6,23,0.06);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+}
 
 /* Tab / CTA helpers */
 .tab-button { padding: 6px 10px; border-radius: 6px; }
@@ -176,12 +206,53 @@ html[data-animations="disabled"] .comet, html[data-animations="disabled"] .comet
 
 /* Contact card polish */
 .contact-card { padding: 1.25rem; border-radius: 1rem; background: linear-gradient(180deg, rgba(24,28,46,0.6), rgba(35,41,74,0.55)); box-shadow: 0 10px 40px rgba(2,6,23,0.6); }
-.contact-email-btn { color: #ffffff; text-decoration: none; padding: 0.35rem 0.5rem; border-radius: 0.5rem; background: rgba(108,207,224,0.09); border: 1px solid rgba(108,207,224,0.09); transition: background 160ms ease, transform 120ms ease; }
-.contact-email-btn:hover { background: rgba(108,207,224,0.16); transform: translateY(-2px); }
+.contact-email-btn { color: #ffffff; text-decoration: none; padding: 0.35rem 0.5rem; border-radius: 0.5rem; background: rgba(108,207,224,0.16); border: 1px solid rgba(108,207,224,0.16); transition: background 160ms ease, transform 120ms ease; }
+.contact-email-btn:hover { background: rgba(108,207,224,0.28); transform: translateY(-2px); }
 
 /* Social icon buttons used in contact aside */
-.social-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); color: #ffffff; font-size: 1.05rem; border: 1px solid rgba(255,255,255,0.04); transition: transform 160ms ease, box-shadow 160ms ease; }
-.social-btn:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(95,220,255,0.12); }
+.social-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); color: #e6fbff; font-size: 1.05rem; border: 1px solid rgba(255,255,255,0.06); transition: transform 160ms ease, box-shadow 160ms ease; }
+.social-btn:hover { transform: translateY(-4px); box-shadow: 0 10px 36px rgba(95,220,255,0.16); }
+
+/* Ensure tech logo tiles center their content and scale SVG/PNG nicely */
+.tech-logo img, .tech-logo svg { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+/* If a logo is detected as small or narrow/tall, make it visually larger */
+.tech-logo--big { padding: 3px; }
+.tech-logo--big img, .tech-logo--big svg { transform: scale(1.25); transition: transform 180ms ease; transform-origin: center; }
+
+/* Boost SVG visuals slightly by default to compensate for icons exported
+  with large whitespace or small internal art. This is conservative; the
+  `--big` modifier increases the scale further. */
+.tech-logo svg { transform-origin: center; transform: scale(1.08); transition: transform 160ms ease; }
+.tech-logo--big svg { transform: scale(1.42); }
+
+/* Visual treatments for primary vs secondary groups */
+.tech-group h3 { text-align: center; }
+.tech-logo--primary { width: 72px; height: 72px; border-radius: 14px; box-shadow: 0 10px 34px rgba(2,6,23,0.10); border: 1px solid rgba(12,34,56,0.06); }
+.tech-logo--primary img, .tech-logo--primary svg { width: 100%; height: 100%; }
+.tech-logo--secondary { opacity: 0.78; width: 40px; height: 40px; border-radius: 8px; padding: 5px; }
+.tech-logo--secondary img, .tech-logo--secondary svg { width: 100%; height: 100%; }
+
+.tech-logo--primary:hover, .tech-logo--secondary:hover { transform: translateY(-4px) scale(1.03); transition: transform 160ms ease; }
+
+/* (Proficiency bars removed - visual-only proficiency was disabled) */
+
+/* Secondary / "other" tech visual tweak: smaller, subtler badges */
+.tech-logo--other {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  padding: 6px;
+  background: rgba(255,255,255,0.94);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(2,6,23,0.04);
+  box-shadow: 0 6px 14px rgba(2,6,23,0.05);
+  opacity: 0.92;
+}
+.tech-logo--other img, .tech-logo--other svg { width: 70%; height: 70%; object-fit: contain; }
+.tech-logo--other:hover { transform: translateY(-3px) scale(1.02); transition: transform 140ms ease; }
 
 /* Decorative small planet in contact area */
 .contact-planet { position: absolute; right: 1.25rem; top: -18px; width: 72px; height: 72px; border-radius: 999px; background: radial-gradient(circle at 35% 30%, #8adff3 0%, #4da6c8 30%, #12324a 70%); box-shadow: 0 8px 30px rgba(7,18,30,0.6), inset 0 -8px 18px rgba(0,0,0,0.45); transform: rotate(-12deg); }
@@ -325,3 +396,324 @@ html[data-animations="disabled"] .comet, html[data-animations="disabled"] .comet
 
 /* tech badge style used in the modal */
 .tech-badge { background: #eef2ff; color: #0f172a; padding: 4px 8px; border-radius: 6px; font-size: 12px; }
+
+/* Avatar / profile picture styles */
+.avatar-wrapper { display: block; margin: 0 auto; }
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.55), inset 0 -6px 18px rgba(255,255,255,0.02);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+  transform-origin: center center;
+}
+.avatar:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 12px 40px rgba(2,6,23,0.65); }
+
+/* no fixed avatar sizes here; container determines final size */
+
+/* slight zoom applied to the image so the crop feels tighter */
+.avatar-zoom { transform: scale(1.30); }
+
+/* shift only the inner image slightly right/down inside the circular mask
+  without moving the avatar container. (About-specific absolute rules removed
+  in favor of a safer, constrained layout below.) */
+
+/* Override previous absolute rules for controlled avatar layout in About */
+.about-avatar { display: inline-flex; align-items: center; justify-content: center; padding: 6px; border-radius: 9999px; background: rgba(255,255,255,0.96); box-shadow: 0 8px 30px rgba(2,6,23,0.15); border: 1px solid rgba(12,34,56,0.06); overflow: hidden; }
+.about-avatar .avatar-inner { position: relative !important; width: 100%; height: 100%; object-fit: cover; transform: translate(12px, 18px) scale(1.65); transition: transform 220ms ease; }
+
+/* Intro paragraphs in About: justify text for a cleaner, concise look */
+.about-intro-par { text-align: justify; text-justify: inter-word; }
+
+/* Constrain the about intro so it doesn't span the full content width
+   and add breathing room from the timeline below. Also slightly reduce
+   avatar size inside this block for better balance. */
+.about-intro {
+  max-width: 64ch;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 1rem;
+  margin-bottom: 2.25rem;
+}
+.about-intro .about-avatar { width: 6rem; height: 6rem; }
+@media (min-width: 768px) {
+  /* On wider screens, make the avatar match the intro text height (square) */
+  .about-intro .about-avatar {
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    width: auto;
+    max-width: 12rem;
+    min-width: 5rem;
+    padding: 6px;
+  }
+  .about-intro .about-avatar .avatar-inner { transform: translate(12px, 22px) scale(1.50); }
+}
+.about-intro p { max-width: 60ch; }
+
+/* Ensure the timeline has extra top padding so it does not sit too close
+   and is positioned for the connector line */
+.timeline { padding-top: 1.5rem; position: relative; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 16px;
+  bottom: 16px;
+  width: 4px;
+  background: linear-gradient(180deg, rgba(124,234,255,0.28), rgba(152,168,238,0.18));
+  border-radius: 4px;
+  box-shadow: 0 6px 18px rgba(10,12,27,0.12);
+  z-index: 0;
+}
+
+/* Make sure timeline icons sit above the connector */
+.timeline .w-12.h-12, .timeline .w-12.h-12 + div, .timeline .w-12 { z-index: 10; }
+
+/* position social icons cluster below the decorative satellite/planet at the top-right of the contact card on desktop; on mobile it sits inline below content */
+.contact-top-right {
+  position: absolute;
+  right: 1rem;
+  top: 72px; /* place below the satellite (which is ~64px tall, offset a bit) */
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  z-index: 20;
+}
+
+@media (max-width: 767px) {
+  .contact-top-right { position: static; flex-direction: row; justify-content: center; margin-top: 1rem; }
+}
+
+.avatar-placeholder { background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius: 9999px; }
+
+/* Project card / repo icon styles */
+.project-card { position: relative; overflow: visible; /* CSS variables used to align right-side bg, date and icons */
+  --project-image-offset: 34%;
+  --project-card-padding: 1.75rem; /* matches Tailwind p-7 */
+}
+.project-card .repo-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.04);
+  color: inherit;
+  transition: transform 160ms ease, background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+.project-card .repo-btn .repo-icon { width: 18px; height: 18px; display: block; }
+.project-card .repo-btn:hover { transform: translateY(-3px) scale(1.02); background: rgba(255,255,255,0.08); color: #6ccfe0; box-shadow: 0 8px 28px rgba(108,207,224,0.06); }
+.project-card .repo-btn:focus { outline: none; box-shadow: 0 0 0 3px rgba(108,207,224,0.12); border-color: rgba(108,207,224,0.22); }
+
+/* subtle lift for entire card on hover (replaces inlined mouse handlers if present) */
+.project-card:hover { transform: translateY(-6px) scale(1.01); }
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  left: 12px; /* place inside the card so overflow:hidden doesn't clip it */
+  top: 12px;
+  bottom: 12px;
+  width: 6px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(108,207,224,0.95), rgba(152,168,238,0.95));
+  box-shadow: 0 6px 18px rgba(108,207,224,0.08);
+  z-index: 7;
+  transition: box-shadow 200ms ease, opacity 200ms ease, transform 180ms ease;
+}
+.project-card:hover::before { box-shadow: 0 10px 30px rgba(108,207,224,0.12); transform: translateX(-1px); }
+
+/* Make inline tech icons slightly desaturated until hover for a subtle interactive feel */
+.project-tech-img { width: 20px; height: 20px; object-fit: contain; display: inline-block; background: transparent !important; border: none !important; box-shadow: none !important; opacity: 0.95; filter: grayscale(20%); transition: transform 140ms ease, filter 160ms ease; }
+.project-tech-img:hover { filter: none; transform: scale(1.12); }
+
+/* Larger inline project tech icon modifier for small source icons */
+.project-tech-img--big { width: 28px; height: 28px; transform: scale(1.15); transition: transform 140ms ease; }
+.project-tech-img--big:hover { transform: scale(1.4); }
+
+
+
+/* Card right-side background image (subtle, blurred) */
+.project-card--with-bg { position: relative; overflow: hidden; }
+.project-card--with-bg::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--project-image-offset);
+  /* Layer a darker gradient over the background image to emphasize image content (no blur) */
+  /* Darker overlay to make the right-side image more visible and readable */
+  background: linear-gradient(to right, rgba(10,12,27,0.12), rgba(10,12,27,0.42)), var(--card-bg-img);
+  background-size: cover;
+  background-position: center right;
+  opacity: 0.36;
+  filter: saturate(0.95) contrast(0.98);
+  border-top-right-radius: 1.25rem;
+  border-bottom-right-radius: 1.25rem;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 220ms ease;
+  z-index: 1;
+}
+.project-card--with-bg:hover::after { opacity: 0.56; }
+/* Numeric debug labels (small) */
+.project-debug-value {
+  position: absolute;
+  top: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #071523;
+  background: rgba(255,255,255,0.95);
+  z-index: 72;
+  pointer-events: none;
+  transform: translateX(6px);
+}
+.project-debug-value-right { right: var(--computed-right-offset, calc(var(--project-image-offset) + 0.75rem)); }
+.project-debug-value-icon { right: var(--computed-icon-offset, calc(var(--project-image-offset) + 0.75rem)); }
+
+/* Overlay clickable area to open the gallery (transparent but visible on focus) */
+.project-bg-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--project-image-offset);
+  border: none;
+  background: linear-gradient(90deg, rgba(255,255,255,0.00), rgba(255,255,255,0.02));
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+.project-bg-btn:focus { outline: none; box-shadow: 0 0 0 4px rgba(108,207,224,0.12); }
+
+/* Small placeholder for missing logos (e.g., flutter fallback) */
+.project-tech-placeholder { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 6px; background: rgba(0,0,0,0.45); color: #e6fbff; font-size: 11px; font-weight: 700; }
+
+@media (max-width: 768px) {
+  /* reduce the right-side bg on small screens and update the CSS variable so offsets follow */
+  .project-card { --project-image-offset: 28%; }
+}
+
+/* Date positioning: align vertically with project title by placing it near the top and to the left of the background image */
+.project-date {
+  position: absolute;
+  top: 28px; /* align vertically with the project title */
+  right: var(--computed-right-offset, calc(var(--project-image-offset) + 0.75rem)); /* use computed px offset when available */
+  font-size: 0.9rem;
+  color: var(--tw-text-opacity, #cbd5e1);
+  background: rgba(255,255,255,0.01);
+  z-index: 6;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+/* On light cards, make the date text dark for readability */
+.card-bg .project-date { color: #0b1220; background: transparent; }
+
+/* Inline tech icons inside the actions row. When the card has a background image, push them left by margin-right. Otherwise they sit flush to the right via margin-left:auto */
+.project-tech-stack-inline {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+    .project-card--with-bg .project-tech-stack-inline { margin-right: var(--computed-icon-offset, var(--computed-right-offset, calc(var(--project-image-offset) + 0.75rem))); }
+/* When there's no right-side background image, give the icons a consistent right margin */
+.project-card:not(.project-card--with-bg) .project-tech-stack-inline { margin-right: var(--computed-icon-offset, var(--computed-right-offset, calc(1rem + var(--project-card-padding)))); }
+
+/* Larger visual size for specific small logos to balance with others */
+  .project-tech-img--large { width: 44px; height: 44px; transform: translateY(1px) scale(1.02); }
+
+/* Position date on cards without a background image to align with stack icons */
+.project-card:not(.project-card--with-bg) .project-date { right: calc(1rem + var(--project-card-padding)); top: 28px; }
+
+/* Force consistent card size and layout so all cards align in the grid */
+.project-card--fixed {
+  display: flex;
+  flex-direction: column;
+  height: 200px; /* reduced fixed card height per user request */
+  box-sizing: border-box;
+}
+
+/* New flex-based card layout */
+.project-card--flex {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.project-card--flex > div {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+/* Line clamp utility for description text */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Flex-based date styling - aligned with tech icons */
+.project-date-flex {
+  font-size: 0.9rem;
+  color: #0b1220;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  .project-date-flex {
+    font-size: 0.75rem;
+    padding: 3px 6px;
+  }
+  
+  .project-tech-img {
+    width: 16px !important;
+    height: 16px !important;
+  }
+  
+  .project-tech-img--large {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  
+  .project-card--flex {
+    min-height: 180px;
+  }
+}
+
+/* Ensure the main content area can grow but doesn't push the date out of place */
+.project-card--fixed > .flex {
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .project-date { right: var(--computed-right-offset, calc(28% + 0.75rem)); bottom: 12px; }
+  .project-card--with-bg .project-tech-stack-inline { margin-right: var(--computed-right-offset, calc(28% + 0.75rem)); }
+}
+
+/* Adjust placeholder badge contrast when inside light card-bg */
+.card-bg .project-tech-placeholder { background: rgba(0,0,0,0.06); color: #0b1220; }
+
