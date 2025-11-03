@@ -1,5 +1,11 @@
+import { track } from '@vercel/analytics'
+
 export function trackEvent(name: string, payload: Record<string, any> = {}) {
   try {
+    // Track with Vercel Analytics
+    track(name, payload)
+    
+    // Also support Google Analytics if present
     const data = { event: name, ...payload }
     if (Array.isArray((globalThis as any).dataLayer)) {
       (globalThis as any).dataLayer.push(data)

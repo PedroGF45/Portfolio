@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import journeyTimeline from '../data/journeyTimeline'
+import { trackEvent } from '../lib/analytics'
 
 const TimelineItem: React.FC<{ phase: any; i: number }> = ({ phase, i }) => {
   const isLeft = i % 2 === 0
@@ -181,7 +182,8 @@ const AboutMe: React.FC = () => {
         <div className="mt-10 mb-10 flex justify-center">
           <a
             href="/English_PedroBrito.pdf"
-            download
+            download="Pedro_Brito_CV.pdf"
+            onClick={() => trackEvent('cv_download')}
             className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow transition-colors duration-200 focus:ring-2 focus:ring-blue-300 focus:outline-none"
           >
             Download CV
