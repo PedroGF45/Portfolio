@@ -1,0 +1,6 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://pedro-brito-portfolio-5e3khpt6h-pedrogf45s-projects.vercel.app/sitemap.xml
