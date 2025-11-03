@@ -7,7 +7,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "images:optimize": "node scripts/optimize-images.js",
-  "logos:normalize": "node scripts/normalize-logos.js",
+    "logos:normalize": "node scripts/normalize-logos.js",
     "logos:fix": "node scripts/fix-logo-extensions.js",
     "lint": "eslint --ext .ts,.tsx src || true",
     "typecheck": "tsc --noEmit",
@@ -16,6 +16,8 @@
   "dependencies": {
     "@react-three/drei": "9.59.0",
     "@react-three/fiber": "8.0.27",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "framer-motion": "^10.12.16",
     "lottie-web": "^5.13.0",
     "react": "18.2.0",

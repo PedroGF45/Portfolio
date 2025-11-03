@@ -489,8 +489,10 @@ html[data-animations="disabled"] .comet, html[data-animations="disabled"] .comet
 
 .avatar-placeholder { background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius: 9999px; }
 
-/* Project card / repo icon styles */
-.project-card { position: relative; overflow: visible; /* CSS variables used to align right-side bg, date and icons */
+.project-card { 
+  position: relative; 
+  overflow: visible; 
+  will-change: transform;
   --project-image-offset: 34%;
   --project-card-padding: 1.75rem; /* matches Tailwind p-7 */
 }
@@ -510,7 +512,6 @@ html[data-animations="disabled"] .comet, html[data-animations="disabled"] .comet
 .project-card .repo-btn:hover { transform: translateY(-3px) scale(1.02); background: rgba(255,255,255,0.08); color: #6ccfe0; box-shadow: 0 8px 28px rgba(108,207,224,0.06); }
 .project-card .repo-btn:focus { outline: none; box-shadow: 0 0 0 3px rgba(108,207,224,0.12); border-color: rgba(108,207,224,0.22); }
 
-/* subtle lift for entire card on hover (replaces inlined mouse handlers if present) */
 .project-card:hover { transform: translateY(-6px) scale(1.01); }
 
 .project-card::before {

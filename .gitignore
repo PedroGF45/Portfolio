@@ -49,3 +49,4 @@ local-debug.log
 
 # Windows image file cache
 Thumbs.db
+.vercel
