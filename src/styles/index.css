@@ -31,7 +31,6 @@ body {
 .text-text-200 { color: #e0e7ef; }
 .text-text-300 { color: #cbd5e1; }
 
-/* Section transition helpers */
 .section-transition {
   background: linear-gradient(180deg, #181c2e 60%, #23294a 100%);
   transition: background 0.6s cubic-bezier(.4,0,.2,1);
@@ -41,16 +40,14 @@ body {
   transition: background 0.6s cubic-bezier(.4,0,.2,1);
 }
 
-/* Headings and text improvements */
 h1, h2, h3 {
-  color: #7ddaff; /* unified header color */
+  color: #7ddaff;
   font-family: 'Space Grotesk', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-weight: 700;
   letter-spacing: 0.02em;
-  font-size: 1.5rem; /* unify header sizes for clarity */
+  font-size: 1.5rem;
 }
 
-/* keep smaller headers consistent but slightly less prominent */
 h4, h5, h6 {
   color: #7ddaff;
   font-weight: 700;
@@ -62,30 +59,24 @@ p, li, span, div {
 
 .space-heading { color: #7ddaff; }
 
-/* Card and section backgrounds */
 .card-bg {
-  /* Brighter card: make the card background close to white while keeping translucency */
   background: linear-gradient(180deg, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0.808) 100%);
   border-radius: 1.25rem;
   border: 1px solid rgba(0,0,0,0.06);
   box-shadow: 0 8px 28px rgba(2,6,23,0.12);
   backdrop-filter: blur(6px);
-  /* Make text inside cards dark for readability on light card */
   color: #0b1220;
 }
 
-/* Ensure common text elements inside cards use dark color so they remain readable */
 .card-bg h3, .card-bg p, .card-bg a, .card-bg .repo-btn, .card-bg .text-base, .card-bg .text-sm {
   color: #0b1220 !important;
 }
 
-/* Section padding helpers */
 .section-pad {
   padding-top: 4.5rem;
   padding-bottom: 4.5rem;
 }
 
-/* subtle starfield background using repeating radial gradients */
 .bg-space-stars {
   background-image: radial-gradient(rgba(255,255,255,0.9) 0.5px, transparent 0.6px),
                     radial-gradient(rgba(255,255,255,0.6) 0.6px, transparent 0.7px);
@@ -93,7 +84,6 @@ p, li, span, div {
   background-position: 10px 20px, 40px 60px;
 }
 
-/* responsive tweaks and tooltip polish for the gallery */
 @media (min-width: 768px) {
   .bg-space-stars { background-size: 260px 260px, 150px 150px; }
 }

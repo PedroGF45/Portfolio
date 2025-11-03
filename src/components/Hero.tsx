@@ -24,14 +24,13 @@ export default function Hero() {
   useEffect(() => {
     if (prefersReduced) return
 
-    // Generate 30 random particles with varied movement patterns
     const animationTypes: Array<'straight' | 'wave' | 'zigzag'> = ['straight', 'wave', 'zigzag']
     const newParticles: Particle[] = Array.from({ length: 30 }, (_, i) => ({
       id: i,
       left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 120}%`, // Start at random vertical positions (0-120% of viewport height)
+      top: `${Math.random() * 120}%`,
       animationDuration: `${15 + Math.random() * 25}s`,
-      animationDelay: `${Math.random() * -40}s`, // Negative delay starts animation mid-cycle
+      animationDelay: `${Math.random() * -40}s`,
       drift: `${(Math.random() - 0.5) * 150}px`,
       animationType: animationTypes[Math.floor(Math.random() * animationTypes.length)]
     }))
@@ -40,14 +39,12 @@ export default function Hero() {
 
   return (
     <header className="relative min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-space-950 via-space-900 to-space-800 section-transition pb-0 px-4 overflow-hidden">
-      {/* 3D Grid Overlay */}
       {!prefersReduced && (
         <div className="hero-grid">
           <div className="grid-container" />
         </div>
       )}
 
-      {/* Animated Particles */}
       {!prefersReduced && (
         <div className="hero-particles">
           {particles.map((particle) => (
@@ -66,7 +63,6 @@ export default function Hero() {
         </div>
       )}
 
-      {/* Gradient Glow */}
       {!prefersReduced && <div className="hero-glow" />}
 
       <div className="text-center px-4 max-w-4xl mx-auto hero-content">
@@ -110,7 +106,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
       <div className="absolute bottom-8 left-0 right-0 flex justify-center pointer-events-none">
         <motion.div
           className="flex flex-col items-center gap-2 text-accent-300/70 cursor-pointer pointer-events-auto"

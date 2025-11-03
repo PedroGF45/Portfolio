@@ -22,8 +22,8 @@ export default function ContactForm() {
     )
 
     trackEvent('contact_form_submit', { method: 'mailto', name: name ? 'provided' : 'anonymous' })
+    setStatus('sent')
     globalThis.location.href = `mailto:${to}?subject=${subject}&body=${body}`
-              setStatusMessage("Email client opened. Thank you for reaching out!");
   }
 
   return (

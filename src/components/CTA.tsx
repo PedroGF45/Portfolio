@@ -11,9 +11,6 @@ export default function CTA({ inline, direction, pulseKey }: Props) {
     (typeof globalThis.matchMedia === 'function' && globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches) ||
     globalThis.localStorage?.getItem('animationsDisabled') === 'true'
   )
-  // Respect user preference for reduced motion (MotionToggle writes to
-  // localStorage.animationsDisabled). We do NOT force animations here — the
-  // app can temporarily enable debugging elsewhere if needed.
   const effectivePrefersReduced = prefersReduced
 
   function openModal() {
@@ -29,31 +26,20 @@ export default function CTA({ inline, direction, pulseKey }: Props) {
     ? 'mx-auto bg-accent-500 hover:bg-accent-400 text-space-950 px-6 py-3 rounded-full shadow-lg focus:ring-2 focus:ring-accent-300 focus:outline-none'
     : 'fixed right-6 bottom-6 bg-accent-500 hover:bg-accent-400 text-space-950 px-4 py-3 rounded-full shadow-lg z-50 focus:ring-2 focus:ring-accent-300 focus:outline-none'
 
-  // We drive the pulse ring using `pulseKey` from the parent. The ring itself is
-  // a keyed motion element so it animates whenever `pulseKey` changes.
-
-  // Use animation controls so we can reliably start the entrance animation on
-  // mount (some layouts can mount elements without Framer auto-starting). The
-  // controls approach also lets us respect reduced-motion preferences.
   const controls = useAnimation()
 
   React.useEffect(() => {
     if (effectivePrefersReduced) {
-      // Immediately set final state when reduced-motion is requested.
       controls.set({ opacity: 1, y: 0, scale: 1 })
       return
     }
-    // start with the entrance motion on mount / when direction changes
     controls.start({ opacity: 1, y: 0, scale: 1, transition: { duration: 0.32, ease: 'easeOut' } })
-  // only restart when reduced-motion preference or direction changes
   }, [controls, effectivePrefersReduced, direction])
 
   return (
     <>
       <AnimatePresence>
         <div className="relative inline-block">
-          {/* pulse ring when CTA lands inline. Use pulseKey as key so the entry
-              animation runs each time the parent bumps the key. */}
           {!effectivePrefersReduced && inline && typeof pulseKey === 'number' && (
             <motion.span
               key={`pulse-${pulseKey}`}
@@ -84,7 +70,7 @@ export default function CTA({ inline, direction, pulseKey }: Props) {
         </div>
       </AnimatePresence>
 
-  <HireModal open={open} closeModal={closeModal} prefersReduced={effectivePrefersReduced} />
+      <HireModal open={open} closeModal={closeModal} prefersReduced={effectivePrefersReduced} />
     </>
   )
 }

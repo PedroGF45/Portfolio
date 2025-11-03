@@ -70,7 +70,7 @@ interface ProjectCardProps {
   prefersReduced: boolean
 }
 
-function ProjectCard({ p, cardIndex, openGallery, prefersReduced }: ProjectCardProps) {
+function ProjectCard({ p, cardIndex, openGallery, prefersReduced }: Readonly<ProjectCardProps>) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
   
   const hasImages = p.images && p.images.length > 0
@@ -100,6 +100,15 @@ function ProjectCard({ p, cardIndex, openGallery, prefersReduced }: ProjectCardP
 
   const cardStyle: React.CSSProperties = cardHasBg ? { ['--card-bg-img' as any]: `url(${p.images[0]})` } : {}
 
+  let animateProps
+  if (prefersReduced) {
+    animateProps = undefined
+  } else if (inView) {
+    animateProps = { opacity: 1, y: 0 }
+  } else {
+    animateProps = {}
+  }
+
   return (
     <motion.article
       ref={ref}
@@ -107,7 +116,7 @@ function ProjectCard({ p, cardIndex, openGallery, prefersReduced }: ProjectCardP
       className={`card-bg p-5 sm:p-7 shadow-lg rounded-xl focus-within:ring-2 focus-within:ring-accent-400 project-card project-card--flex ${cardHasBg ? 'project-card--with-bg' : ''}`}
       style={cardStyle as any}
       initial={prefersReduced ? undefined : { opacity: 0, y: 40 }}
-      animate={prefersReduced ? undefined : (inView ? { opacity: 1, y: 0 } : {})}
+      animate={animateProps}
       transition={prefersReduced ? undefined : { duration: 0.6, delay: cardIndex * 0.15, ease: 'easeOut' }}
     >
       <div className="project-card-inner">

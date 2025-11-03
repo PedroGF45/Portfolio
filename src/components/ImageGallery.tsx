@@ -8,7 +8,7 @@ interface ImageGalleryProps {
   captions?: string[]
 }
 
-export default function ImageGallery({ images, open, onClose, initialIndex = 0, captions = [] }: ImageGalleryProps) {
+export default function ImageGallery({ images, open, onClose, initialIndex = 0, captions = [] }: Readonly<ImageGalleryProps>) {
   const [index, setIndex] = useState(initialIndex)
   const [fade, setFade] = useState(true)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -19,7 +19,6 @@ export default function ImageGallery({ images, open, onClose, initialIndex = 0, 
     if (open) setIndex(initialIndex)
   }, [open, initialIndex])
 
-  // Lock/unlock body scroll when gallery opens/closes
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden'
@@ -41,8 +40,8 @@ export default function ImageGallery({ images, open, onClose, initialIndex = 0, 
       if (e.key === 'Escape') onClose()
     }
 
-    window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
+    globalThis.addEventListener('keydown', handleKey)
+    return () => globalThis.removeEventListener('keydown', handleKey)
   }, [open, index])
 
   useEffect(() => {
@@ -97,9 +96,7 @@ export default function ImageGallery({ images, open, onClose, initialIndex = 0, 
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
       onClick={onClose}
-      tabIndex={-1}
-      aria-modal="true"
-      role="dialog"
+      onKeyDown={(e) => e.key === 'Escape' && onClose()}
       ref={containerRef}
       style={{ outline: 'none' }}
     >
