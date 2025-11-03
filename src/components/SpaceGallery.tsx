@@ -111,10 +111,11 @@ export default function SpaceGallery() {
             return (
               <article
                 key={p.id}
-                className={`card-bg p-5 sm:p-7 shadow-lg transition-transform duration-200 rounded-xl hover:shadow-2xl hover:-translate-y-1.5 focus-within:ring-2 focus-within:ring-accent-400 project-card project-card--flex ${cardHasBg ? 'project-card--with-bg' : ''}`}
-                style={{ ...(cardStyle as any), transition: 'transform 0.18s cubic-bezier(.4,2,.6,1)' }}
+                className={`card-bg p-5 sm:p-7 shadow-lg rounded-xl focus-within:ring-2 focus-within:ring-accent-400 project-card project-card--flex ${cardHasBg ? 'project-card--with-bg' : ''}`}
+                style={cardStyle as any}
               >
-                <div className={`flex flex-col h-full ${cardHasBg ? 'w-full sm:max-w-[66%]' : ''}`}>
+                <div className="project-card-inner">
+                  <div className={`flex flex-col h-full ${cardHasBg ? 'w-full sm:max-w-[66%]' : ''}`}>
                   <div className="flex items-start gap-3 sm:gap-5">
                     {imageEl}
                     <div className="flex-1">
@@ -190,6 +191,7 @@ export default function SpaceGallery() {
                       </div>
                     </div>
                   </div>
+                </div>
                 </div>
 
                 {cardHasBg && (

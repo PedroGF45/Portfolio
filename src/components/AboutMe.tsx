@@ -75,6 +75,9 @@ const primaryStack = [
 
 const otherStack = ['javascript', 'react', 'typescript', 'php', 'c++']
 
+// Icons that need manual size boost (small or narrow source images)
+const SMALL_ICONS = new Set(['react', 'php'])
+
 const fileMap: Record<string, string> = {
   python: '/logos/python.png',
   pytorch: '/logos/pytorch.svg',
@@ -213,10 +216,11 @@ const AboutMe: React.FC = () => {
             {otherStack.map((s, idx) => {
               const slug = s.toLowerCase()
               const mapped = fileMap[slug]
+              const isSmall = SMALL_ICONS.has(slug)
               return (
                 <motion.div
                   key={s}
-                  className="tech-logo tech-logo--other w-12 h-12 flex items-center justify-center"
+                  className={`tech-logo w-12 h-12 flex items-center justify-center ${isSmall ? 'tech-logo--big tech-logo--other' : 'tech-logo--other'}`}
                   title={s}
                   aria-label={s}
                   initial={{ opacity: 0, scale: 0.85, y: 8 }}

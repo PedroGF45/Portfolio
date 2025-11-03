@@ -218,13 +218,13 @@ html[data-animations="disabled"] .comet, html[data-animations="disabled"] .comet
 
 /* If a logo is detected as small or narrow/tall, make it visually larger */
 .tech-logo--big { padding: 3px; }
-.tech-logo--big img, .tech-logo--big svg { transform: scale(1.25); transition: transform 180ms ease; transform-origin: center; }
+.tech-logo--big img, .tech-logo--big svg { transform: scale(1.6); transition: transform 180ms ease; transform-origin: center; }
 
 /* Boost SVG visuals slightly by default to compensate for icons exported
   with large whitespace or small internal art. This is conservative; the
   `--big` modifier increases the scale further. */
 .tech-logo svg { transform-origin: center; transform: scale(1.08); transition: transform 160ms ease; }
-.tech-logo--big svg { transform: scale(1.42); }
+.tech-logo--big svg { transform: scale(1.8); }
 
 /* Visual treatments for primary vs secondary groups */
 .tech-group h3 { text-align: center; }
@@ -512,7 +512,13 @@ html[data-animations="disabled"] .comet, html[data-animations="disabled"] .comet
 .project-card .repo-btn:hover { transform: translateY(-3px) scale(1.02); background: rgba(255,255,255,0.08); color: #6ccfe0; box-shadow: 0 8px 28px rgba(108,207,224,0.06); }
 .project-card .repo-btn:focus { outline: none; box-shadow: 0 0 0 3px rgba(108,207,224,0.12); border-color: rgba(108,207,224,0.22); }
 
-.project-card:hover { transform: translateY(-6px) scale(1.01); }
+/* Apply transform to inner wrapper to prevent hover area from changing and causing flicker */
+.project-card-inner {
+  transition: transform 0.18s cubic-bezier(.4,2,.6,1);
+}
+.project-card:hover .project-card-inner {
+  transform: translateY(-6px) scale(1.01);
+}
 
 .project-card::before {
   content: '';
