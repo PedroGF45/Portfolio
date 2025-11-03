@@ -12,6 +12,7 @@ export default function App() {
   const [inlineCTA, setInlineCTA] = useState(false)
   const [scrollDir, setScrollDir] = useState<'down' | 'up'>('down')
   const [inlinePulseKey, setInlinePulseKey] = useState(0)
+  const [galleryOpen, setGalleryOpen] = useState(false)
   const lastY = React.useRef<number>((globalThis as any).window?.scrollY ?? 0)
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function App() {
 
   useCTAVisibility(setHeaderVisible, setInlineCTA, setInlinePulseKey)
 
-  const floatingCTA = !headerVisible && !inlineCTA
+  const floatingCTA = !headerVisible && !inlineCTA && !galleryOpen
 
   return (
     <LayoutGroup>
@@ -43,7 +44,7 @@ export default function App() {
 
         <section className="section-transition-alt section-pad rounded-3xl overflow-hidden shadow-xl mb-12">
           <div className="max-w-7xl mx-auto px-6">
-            <SpaceGallery />
+            <SpaceGallery onGalleryChange={setGalleryOpen} />
           </div>
         </section>
       </main>
@@ -64,12 +65,12 @@ export default function App() {
               Interested in working together?
             </h3>
             <p className="mb-4 text-xs sm:text-sm md:text-base text-text-200">
-              Tell me about the problem — or click Hire me to start a conversation.
+              Tell me about the problem or click Hire me to start a conversation.
             </p>
           </div>
         </div>
 
-        {inlineCTA && (
+        {inlineCTA && !galleryOpen && (
           <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center sm:justify-between gap-4">
             <HireCTA inline direction={scrollDir} pulseKey={inlinePulseKey} />
 
@@ -114,7 +115,7 @@ export default function App() {
       </motion.section>
 
       <footer className="text-center py-8 text-sm opacity-80">
-        © {new Date().getFullYear()} Pedro Brito — Built with passion for space & AI
+        © {new Date().getFullYear()} Pedro Brito. Built with passion for space & AI
       </footer>
 
       {floatingCTA && !inlineCTA && <HireCTA direction={scrollDir} pulseKey={inlinePulseKey} />}

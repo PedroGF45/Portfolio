@@ -4,6 +4,35 @@ import { useInView } from 'react-intersection-observer'
 import journeyTimeline from '../data/journeyTimeline'
 import { trackEvent } from '../lib/analytics'
 
+const DownloadCVButton: React.FC = () => {
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
+  
+  return (
+    <motion.div
+      ref={ref}
+      className="mt-10 mb-10 flex justify-center"
+      initial={{ opacity: 0, y: 60 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, type: 'spring', bounce: 0.18 }}
+    >
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      >
+        <a
+          href="/English_PedroBrito.pdf"
+          download="Pedro_Brito_CV.pdf"
+          onClick={() => trackEvent('cv_download')}
+          className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow transition-colors duration-200 focus:ring-2 focus:ring-blue-300 focus:outline-none"
+        >
+          Download CV
+        </a>
+      </motion.div>
+    </motion.div>
+  )
+}
+
 const TimelineItem: React.FC<{ phase: any; i: number }> = ({ phase, i }) => {
   const isLeft = i % 2 === 0
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 })
@@ -139,28 +168,28 @@ const AboutMe: React.FC = () => {
   return (
     <motion.section
       ref={sectionRef}
-      className="about-section container mx-auto px-4 py-12"
+      className="about-section container mx-auto px-4 py-2 sm:py-12"
       initial={{ opacity: 0 }}
       animate={sectionInView ? { opacity: 1 } : {}}
       transition={{ duration: 0.6 }}
     >
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-4">About me</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center sm:text-left">About me</h2>
 
         <div className="about-intro mb-6 md:flex md:items-stretch md:gap-6">
-          <div className="about-avatar w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden relative mb-4 md:mb-0">
+          <div className="about-avatar w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden relative mb-4 md:mb-0 mx-auto md:mx-0">
             <img src="/images/profile-256.webp" alt="Pedro Brito" className="avatar-inner w-full h-full object-cover" />
           </div>
           <div className="md:flex-1">
-            <div className="block sm:hidden">
+            <div className="block sm:hidden text-center md:text-left">
               <p className="text-sm mb-2">
-                Hi — I'm Pedro, a software engineer and data scientist. I build ML pipelines, data-driven tools, and space-themed projects.
+                Hi, I'm Pedro, a software engineer and data scientist. I build ML pipelines, data-driven tools, and space-themed projects.
               </p>
               <p className="text-xs text-text-300">Python • Machine Learning • Data Engineering</p>
             </div>
             <div className="hidden sm:block">
               <p className="text-base mb-2 about-intro-par">
-                Hi — I'm Pedro. I'm open to software engineering roles broadly, with a preference for data science and AI. 
+                Hi, I'm Pedro. I'm open to software engineering roles broadly, with a preference for data science and AI. 
                 I design and implement data-driven products and tools with a focus on machine learning, data engineering, and visualization. 
                 I enjoy building space-themed projects and machine learning pipelines that scale.
               </p>
@@ -179,16 +208,7 @@ const AboutMe: React.FC = () => {
           </ol>
         </div>
 
-        <div className="mt-10 mb-10 flex justify-center">
-          <a
-            href="/English_PedroBrito.pdf"
-            download="Pedro_Brito_CV.pdf"
-            onClick={() => trackEvent('cv_download')}
-            className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow transition-colors duration-200 focus:ring-2 focus:ring-blue-300 focus:outline-none"
-          >
-            Download CV
-          </a>
-        </div>
+        <DownloadCVButton />
 
         <div ref={stackRef} className="w-full" aria-hidden={!stackInView}>
           <div ref={stackContainerRef} className="flex flex-wrap gap-3 items-center justify-center">

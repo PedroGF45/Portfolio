@@ -610,6 +610,15 @@ html[data-animations="disabled"] .comet, html[data-animations="disabled"] .comet
 .about-avatar { display: inline-flex; align-items: center; justify-content: center; padding: 6px; border-radius: 9999px; background: rgba(255,255,255,0.96); box-shadow: 0 8px 30px rgba(2,6,23,0.15); border: 1px solid rgba(12,34,56,0.06); overflow: hidden; }
 .about-avatar .avatar-inner { position: relative !important; width: 100%; height: 100%; object-fit: cover; transform: translate(12px, 18px) scale(1.65); transition: transform 220ms ease; }
 
+/* Mobile: center the avatar */
+@media (max-width: 767px) {
+  .about-avatar {
+    display: flex !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
 /* Intro paragraphs in About: justify text for a cleaner, concise look */
 .about-intro-par { text-align: justify; text-justify: inter-word; }
 

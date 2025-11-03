@@ -205,7 +205,7 @@ function ProjectCard({ p, cardIndex, openGallery, prefersReduced }: ProjectCardP
   )
 }
 
-export default function SpaceGallery() {
+export default function SpaceGallery({ onGalleryChange }: Readonly<{ onGalleryChange?: (isOpen: boolean) => void }>) {
   const [galleryOpen, setGalleryOpen] = useState(false)
   const [galleryImages, setGalleryImages] = useState<string[]>([])
   const [galleryCaptions, setGalleryCaptions] = useState<string[]>([])
@@ -221,12 +221,16 @@ export default function SpaceGallery() {
     setGalleryIndex(idx)
     setGalleryCaptions(projectId && PROJECT_CAPTIONS[projectId] || images.map(() => ''))
     setGalleryOpen(true)
+    onGalleryChange?.(true)
     if (projectId) {
       trackEvent('project_gallery_open', { project: projectId })
     }
   }
 
-  const closeGallery = () => setGalleryOpen(false)
+  const closeGallery = () => {
+    setGalleryOpen(false)
+    onGalleryChange?.(false)
+  }
 
   return (
     <section className="relative">

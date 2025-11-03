@@ -23,7 +23,7 @@ export default function ContactForm() {
 
     trackEvent('contact_form_submit', { method: 'mailto', name: name ? 'provided' : 'anonymous' })
     globalThis.location.href = `mailto:${to}?subject=${subject}&body=${body}`
-    setStatus('sent')
+              setStatusMessage("Email client opened. Thank you for reaching out!");
   }
 
   return (
@@ -46,7 +46,7 @@ export default function ContactForm() {
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Hi Pedro — write a short message..."
+                      placeholder="Hi Pedro, write a short message about your project, idea, or job opportunity..."
           rows={5}
           className="w-full px-3 py-2 rounded bg-white/3 focus:outline-none focus:ring-2 focus:ring-accent-300"
         />
@@ -58,7 +58,7 @@ export default function ContactForm() {
         >
           Send
         </button>
-        {status === 'sent' && <span className="text-sm text-accent-300">Email client opened — thank you!</span>}
+        {status === 'sent' && <span className="text-sm text-accent-300">Email client opened. Thank you!</span>}
         {status === 'error' && <span className="text-sm text-red-400">Please add a short message before sending.</span>}
       </div>
     </form>

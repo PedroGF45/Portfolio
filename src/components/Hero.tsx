@@ -86,11 +86,11 @@ export default function Hero() {
           Pedro Brito
         </motion.h1>
         <p className="mt-4 text-lg sm:text-xl lg:text-2xl text-accent-200 font-medium opacity-95 px-4">
-          Aspiring software engineer & data scientist — I turn data into impact.
+          Aspiring software engineer and data scientist. I turn data into impact.
         </p>
         <div className="mt-8 flex gap-4 justify-center items-center">
           <a
-            className="ml-3 text-2xl text-accent-300 hover:text-accent-400 transition-colors focus:underline"
+            className="text-2xl text-accent-300 hover:text-accent-400 transition-colors focus:underline"
             href="https://github.com/PedroGF45"
             target="_blank"
             rel="noreferrer"
@@ -100,7 +100,7 @@ export default function Hero() {
             <FaGithub />
           </a>
           <a
-            className="ml-2 text-2xl text-accent-300 hover:text-accent-400 transition-colors focus:underline"
+            className="text-2xl text-accent-300 hover:text-accent-400 transition-colors focus:underline"
             href="mailto:pedrobfh@gmail.com"
             aria-label="Email"
             onClick={() => trackEvent('hero_email_click')}
@@ -111,39 +111,41 @@ export default function Hero() {
       </div>
 
       {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-accent-300/70 cursor-pointer"
-        initial={{ opacity: 0, y: -10 }}
-        animate={prefersReduced ? { opacity: 0.7 } : {
-          opacity: [0.4, 0.8, 0.4],
-          y: [0, 8, 0]
-        }}
-        transition={prefersReduced ? { duration: 0.5, delay: 0.8 } : {
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 0.8
-        }}
-        onClick={() => {
-          window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
-          trackEvent('scroll_indicator_click')
-        }}
-        whileHover={prefersReduced ? undefined : { scale: 1.1 }}
-      >
-        <span className="text-sm font-medium">Scroll down</span>
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+      <div className="absolute bottom-8 left-0 right-0 flex justify-center pointer-events-none">
+        <motion.div
+          className="flex flex-col items-center gap-2 text-accent-300/70 cursor-pointer pointer-events-auto"
+          initial={{ opacity: 0, y: -10 }}
+          animate={prefersReduced ? { opacity: 0.7 } : {
+            opacity: [0.4, 0.8, 0.4],
+            y: [0, 8, 0]
+          }}
+          transition={prefersReduced ? { duration: 0.5, delay: 0.8 } : {
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 0.8
+          }}
+          onClick={() => {
+            window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
+            trackEvent('scroll_indicator_click')
+          }}
+          whileHover={prefersReduced ? undefined : { scale: 1.1 }}
         >
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
-      </motion.div>
+          <span className="text-sm font-medium">Scroll down</span>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </motion.div>
+      </div>
     </header>
   )
 }

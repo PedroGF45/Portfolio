@@ -155,12 +155,12 @@ function HireModal({ open, closeModal, prefersReduced }: { readonly open: boolea
             transition={{ duration: prefersReduced ? 0 : 0.34, ease: 'easeInOut' }}
           >
             <h3 id="hire-title" className="text-2xl font-bold mb-2">Let's build something together</h3>
-            <p className="text-text-200 mb-4">I'm open to software engineering roles broadly, with a preference for data science and AI — reach out and let's chat.</p>
+            <p className="text-text-200 mb-4">I'm open to software engineering roles broadly, with a preference for data science and AI. Reach out and let's chat.</p>
 
             {/* X button to close */}
             <button
               onClick={closeModal}
-              className="absolute top-4 right-4 text-text-300 hover:text-accent-400 transition-colors focus:outline-none focus:ring-2 focus:ring-accent-400 rounded p-1"
+              className="absolute top-4 right-4 text-text-300 hover:text-accent-400 transition-colors outline-none"
               aria-label="Close modal"
             >
               <FaTimes size={20} />

@@ -12,10 +12,25 @@ export default function ImageGallery({ images, open, onClose, initialIndex = 0, 
   const [index, setIndex] = useState(initialIndex)
   const [fade, setFade] = useState(true)
   const containerRef = useRef<HTMLDivElement>(null)
+  const touchStartX = useRef<number>(0)
+  const touchEndX = useRef<number>(0)
 
   useEffect(() => {
     if (open) setIndex(initialIndex)
   }, [open, initialIndex])
+
+  // Lock/unlock body scroll when gallery opens/closes
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [open])
 
   useEffect(() => {
     if (!open) return
@@ -52,6 +67,30 @@ export default function ImageGallery({ images, open, onClose, initialIndex = 0, 
     }, 120)
   }
 
+  // Touch gesture handlers for mobile swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX
+  }
+
+  const handleTouchEnd = () => {
+    const swipeThreshold = 50 // minimum distance for a swipe
+    const diff = touchStartX.current - touchEndX.current
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        // Swiped left -> go to next image
+        next()
+      } else {
+        // Swiped right -> go to previous image
+        prev()
+      }
+    }
+  }
+
   if (!open || !images || images.length === 0) return null
 
   return (
@@ -72,10 +111,17 @@ export default function ImageGallery({ images, open, onClose, initialIndex = 0, 
         >
           ×
         </button>
-        <div className="flex items-center justify-center w-full h-[60vh]">
-          <button className="text-white text-3xl px-4" onClick={prev} aria-label="Previous image">
-            ‹
-          </button>
+        <div 
+          className="flex items-center justify-center w-full h-[60vh]"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {images.length > 1 && (
+            <button className="text-white text-3xl px-4" onClick={prev} aria-label="Previous image">
+              ‹
+            </button>
+          )}
           <img
             src={images[index]}
             alt={captions[index] || 'Project screenshot'}
@@ -84,9 +130,11 @@ export default function ImageGallery({ images, open, onClose, initialIndex = 0, 
             }`}
             style={{ transition: 'opacity 0.3s' }}
           />
-          <button className="text-white text-3xl px-4" onClick={next} aria-label="Next image">
-            ›
-          </button>
+          {images.length > 1 && (
+            <button className="text-white text-3xl px-4" onClick={next} aria-label="Next image">
+              ›
+            </button>
+          )}
         </div>
         {captions[index] && (
           <div className="mt-2 text-center text-white text-sm bg-black bg-opacity-40 px-3 py-1 rounded shadow">
