@@ -2,6 +2,7 @@ import projects from '../data/projects'
 import { FaGithub } from 'react-icons/fa'
 import React, { useState } from 'react'
 import ImageGallery from './ImageGallery'
+import { trackEvent } from '../lib/analytics'
 
 const fileMap: Record<string, string> = {
   python: '/logos/python.png',
@@ -71,6 +72,9 @@ export default function SpaceGallery() {
     setGalleryIndex(idx)
     setGalleryCaptions(projectId && PROJECT_CAPTIONS[projectId] || images.map(() => ''))
     setGalleryOpen(true)
+    if (projectId) {
+      trackEvent('project_gallery_open', { project: projectId })
+    }
   }
 
   const closeGallery = () => setGalleryOpen(false)
@@ -136,6 +140,7 @@ export default function SpaceGallery() {
                           rel="noreferrer"
                           aria-label={`Open ${p.title} repository on GitHub`}
                           title={`Open ${p.title} repository on GitHub`}
+                          onClick={() => trackEvent('project_repo_click', { project: p.id })}
                         >
                           <FaGithub className="repo-icon" aria-hidden="true" />
                           <span className="sr-only">Repo</span>
@@ -147,6 +152,7 @@ export default function SpaceGallery() {
                           href={p.demoUrl} 
                           target="_blank" 
                           rel="noreferrer"
+                          onClick={() => trackEvent('project_demo_click', { project: p.id })}
                         >
                           Demo
                         </a>

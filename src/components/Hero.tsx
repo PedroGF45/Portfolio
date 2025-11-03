@@ -36,6 +36,7 @@ export default function Hero() {
             target="_blank"
             rel="noreferrer"
             aria-label="GitHub"
+            onClick={() => trackEvent('hero_github_click')}
           >
             <FaGithub />
           </a>
@@ -43,6 +44,7 @@ export default function Hero() {
             className="ml-2 text-2xl text-accent-300 hover:text-accent-400 transition-colors focus:underline"
             href="mailto:pedrobfh@gmail.com"
             aria-label="Email"
+            onClick={() => trackEvent('hero_email_click')}
           >
             <FaEnvelope />
           </a>

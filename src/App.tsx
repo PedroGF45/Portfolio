@@ -5,6 +5,7 @@ import { FaGithub, FaEnvelope, FaLinkedin } from 'react-icons/fa'
 import SpaceGallery from './components/SpaceGallery'
 import AboutMe from './components/AboutMe'
 import HireCTA from './components/CTA'
+import { trackEvent } from './lib/analytics'
 
 export default function App() {
   const [headerVisible, setHeaderVisible] = useState(true)
@@ -78,6 +79,7 @@ export default function App() {
                 title="Email"
                 className="social-btn"
                 href="mailto:pedrobfh@gmail.com?subject=Hello%20Pedro"
+                onClick={() => trackEvent('contact_email_click')}
               >
                 <FaEnvelope />
                 <span className="social-tooltip">Email</span>
@@ -89,6 +91,7 @@ export default function App() {
                 href="https://github.com/PedroGF45"
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => trackEvent('contact_github_click')}
               >
                 <FaGithub />
                 <span className="social-tooltip">GitHub</span>
@@ -100,6 +103,7 @@ export default function App() {
                 href="https://www.linkedin.com/in/pedro-brito-272b2a192"
                 target="_blank"
                 rel="noreferrer"
+                onClick={() => trackEvent('contact_linkedin_click')}
               >
                 <FaLinkedin />
                 <span className="social-tooltip">LinkedIn</span>

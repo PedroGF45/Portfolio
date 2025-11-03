@@ -1,5 +1,6 @@
 import React from 'react'
 import { FaRegMoon, FaSun } from 'react-icons/fa'
+import { trackEvent } from '../lib/analytics'
 
 export default function MotionToggle() {
   const [disabled, setDisabled] = React.useState<boolean>(() => {
@@ -25,7 +26,13 @@ export default function MotionToggle() {
 
   return (
     <button
-      onClick={() => setDisabled(v => !v)}
+      onClick={() => {
+        setDisabled(v => {
+          const newValue = !v
+          trackEvent('motion_toggle', { disabled: newValue })
+          return newValue
+        })
+      }}
       className="flex items-center gap-2 px-3 py-2 rounded bg-white/3 text-accent-300 hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-accent-300"
       title={disabled ? 'Enable animations' : 'Reduce animations'}
       aria-pressed={disabled}
