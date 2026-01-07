@@ -30,6 +30,21 @@ const projects = [
     tech: ['Python', 'Rapids', 'PyTorch']
   },
   {
+    id: 'lol-draft-predictor',
+    title: 'League Draft Win Predictor',
+  description: 'Predicts League of Legends draft outcomes using feature-engineered match data and ML models.',
+    repoUrl: 'https://github.com/PedroGF45/lol-draft-predictor',
+    demoUrl: 'https://lol-draft-predictor.onrender.com',
+    date: '2026',
+    importance: 0.85,
+    color: '#a6e4ff',
+    image: '',
+    images: [
+      '/images/lol_draft_predictor/20251222_202818_pca_variance.png'
+    ],
+    tech: ['Python', 'Pandas', 'scikit-learn']
+  },
+  {
     id: 'space-simulator',
     title: 'N-Body Physics Simulator',
   description: 'C++23 space simulator with Newtonian gravity and Velocity Verlet integration for celestial mechanics.',
